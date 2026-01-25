@@ -9,6 +9,7 @@ import FinalizedProcurements from "../buyer/components/FinalizedProcurements";
 import PaymentDues from "../buyer/components/PaymentDues";
 import MakePayment from "../buyer/components/MakePayment";
 import Transactions from "../buyer/components/Transactions";
+import FindFarmers from "../buyer/components/FindFarmers";
 
 function LandingLayout() {
   return (
@@ -36,6 +37,7 @@ export default function LandingPage() {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/make-procurement" element={<FindFarmers/>}></Route>
           <Route
             path="/procurement-requests"
             element={<ProcurementRequests />}></Route>
