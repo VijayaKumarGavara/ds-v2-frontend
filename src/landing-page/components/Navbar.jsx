@@ -19,6 +19,7 @@ export default function Navbar() {
                 <Link to="/procurement-requests">Procurement Requests</Link>
                 <Link to="/finalized-procurements">Procurements</Link>
                 <Link to="/payment-dues">Payment Dues</Link>
+                <Link to="/histroy">History</Link>
             </nav>
         </div>
       </header>
