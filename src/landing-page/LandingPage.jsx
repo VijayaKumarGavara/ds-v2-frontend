@@ -7,6 +7,7 @@ import ProcurementRequests from "../buyer/components/ProcurementRequests";
 import ProcurementFinalize from "../buyer/components/ProcurementFinalize";
 import FinalizedProcurements from "../buyer/components/FinalizedProcurements";
 import PaymentDues from "../buyer/components/PaymentDues";
+import MakePayment from "../buyer/components/MakePayment";
 
 function LandingLayout() {
   return (
@@ -44,6 +45,7 @@ export default function LandingPage() {
             path="/finalized-procurements"
             element={<FinalizedProcurements />}></Route>
           <Route path="/payment-dues" element={<PaymentDues />}></Route>
+          <Route path="/make-payment" element={<MakePayment />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
