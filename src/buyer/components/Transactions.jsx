@@ -29,9 +29,9 @@ const Transactions = () => {
     <>
       <h1>Transactions</h1>
       <div >
-        {transactions.map((t) => {
+        {transactions.map((t, i) => {
           return (
-            <div key={t.transactions_id} className="border rounded-md px-2 max-w-max m-5">
+            <div key={i} className="border rounded-md px-2 max-w-max m-5">
               <div className="flex ">
                 {t.farmer_name}-{t.amount}
               </div>
