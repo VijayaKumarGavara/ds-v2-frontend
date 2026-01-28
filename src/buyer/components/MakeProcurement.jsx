@@ -15,7 +15,8 @@ const MakeProcurement = ({ farmerSelected, unSelectFarmer }) => {
       farmer_id,
       buyer_id,
       crop_id: cropDetails?.crop_id,
-      quantity,
+      crop_units:cropDetails?.crop_units,
+      quantity:Number(quantity),
     };
     try {
       const response = await fetch(`${API_URL}/api/procurement-request/add`, {
@@ -99,7 +100,7 @@ const MakeProcurement = ({ farmerSelected, unSelectFarmer }) => {
             <option value="maize">Mokka Jonna</option>
             <option value="groundnut">Veru Senaga</option>
             <option value="paddy">Vari</option>
-            <option value="chilli">Mirapa</option>
+            <option value="chillis">Mirapa</option>
           </select>
 
           {cropDetails && (

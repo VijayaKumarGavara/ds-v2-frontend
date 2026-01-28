@@ -27,6 +27,7 @@ const FindFarmers = () => {
       throw new Error("Error while searching farmers.");
     }
     const jsonResponse = await response.json();
+    console.log(jsonResponse);
     setFarmerResults(jsonResponse.data);
   }
 

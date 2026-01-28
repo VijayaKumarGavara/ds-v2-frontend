@@ -24,11 +24,17 @@ const ProcurementRequests = () => {
     <>
       <div>ProcurementRequests</div>
       {procurementRequests.map((r, index) => {
-        return (<div key={index}>
-          <div>{r.buyer_name}-{new Date(r.createdAt).toISOString().split('T')[0]}</div>
-          <div>{r.crop_name}-{`${r.quantity} ${r.crop_units}`}</div>
-          <div className="text-red-500 font-medium ">{r.status}</div>
-        </div>);
+        return (
+          <div key={index}>
+            <div>
+              {r.buyer_name}-{new Date(r.createdAt).toISOString().split("T")[0]}
+            </div>
+            <div>
+              {r.crop_name}-{`${r.quantity} ${r.crop_units}`}
+            </div>
+            <div className="text-red-500 font-medium ">{r.status}</div>
+          </div>
+        );
       })}
     </>
   );

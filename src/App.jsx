@@ -1,16 +1,20 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route} from "react-router";
+
 import PublicRoute from "./routes/PublicRoute";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 import LandingRoutes from "./landing/LandingRoutes";
 import BuyerRoutes from "./buyer/BuyerRoutes";
 import FarmerRoutes from "./farmer/FarmerRoutes";
+import AuthLoader from "./AuthLoader";
 
 function App() {
+  
+
   return (
     <BrowserRouter>
+    <AuthLoader/>
       <Routes>
-
         <Route element={<PublicRoute />}>
           <Route path="/*" element={<LandingRoutes />} />
         </Route>
@@ -22,7 +26,6 @@ function App() {
         <Route element={<ProtectedRoute allowedRole="farmer" />}>
           <Route path="/farmer/*" element={<FarmerRoutes />} />
         </Route>
-
       </Routes>
     </BrowserRouter>
   );

@@ -18,7 +18,9 @@ export default function Navbar() {
       </div>
 
       <nav className="flex list-none gap-8">
-        <Link to="/farmer">Home</Link>
+        <Link to="/buyer">Home</Link>
+
+        <Link to="/buyer/make-procurement">Make Procurement</Link>
         <Link to="/buyer/procurement-requests">
           <li>Procurement Requests</li>
         </Link>

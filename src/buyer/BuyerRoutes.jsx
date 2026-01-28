@@ -8,14 +8,15 @@ import FinalizedProcurements from "./components/FinalizedProcurements";
 import PaymentDues from "./components/PaymentDues";
 import MakePayment from "./components/MakePayment";
 import Transactions from "./components/Transactions";
+import Hero from "./components/Hero";
 
 const BuyerRoutes = () => {
   return (
     <Routes>
       <Route element={<BuyerLayout />}>
         {/* default buyer dashboard */}
-        <Route index element={<FindFarmers />} />
-
+        <Route index element={<Hero />} />
+        <Route path="make-procurement" element={<FindFarmers />} />
         <Route
           path="procurement-requests"
           element={<ProcurementRequests />}
