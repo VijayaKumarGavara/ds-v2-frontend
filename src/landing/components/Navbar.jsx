@@ -14,13 +14,11 @@ export default function Navbar() {
         </div>
         <div>
             <nav className="flex list-none gap-8">
-                <Link to="/login"><li>login</li></Link>
-                <Link to="/register"><li>register</li></Link>
-                <Link to="/make-procurement">Add Purchase</Link>
-                <Link to="/procurement-requests">Procurement Requests</Link>
-                <Link to="/finalized-procurements">Procurements</Link>
-                <Link to="/payment-dues">Payment Dues</Link>
-                <Link to="/histroy">History</Link>
+                
+
+                <Link to="/login">Login</Link>
+                <Link to="/register">Register</Link>
+                
             </nav>
         </div>
       </header>

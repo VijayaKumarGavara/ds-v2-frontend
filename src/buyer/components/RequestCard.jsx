@@ -17,7 +17,7 @@ const RequestCard = ({ request }) => {
         <div>
           {crop_name}- {`${quantity} ${crop_units}`}
         </div>
-        <Link to="/procurement-finalize" state={{request}}>
+        <Link to="/buyer/procurement-finalize" state={{request}}>
           Finalize
         </Link>
       </div>

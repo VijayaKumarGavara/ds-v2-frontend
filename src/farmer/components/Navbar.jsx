@@ -1,0 +1,44 @@
+import { Link, useNavigate } from "react-router";
+
+export default function Navbar() {
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    navigate("/", { replace: true });
+  }
+
+  return (
+    <header className="flex px-10 items-center">
+      <div className="flex px-10 py-2 items-center gap-4">
+        <div className="w-10 rounded-md bg-slate-300">
+          <img src="/DS_new.png" alt="Dhanya Sethu Logo" />
+        </div>
+        <div className="text-4xl font-medium">Dhanya Sethu</div>
+      </div>
+
+      <nav className="flex list-none gap-8">
+        <Link to="/farmer">Home</Link>
+        <Link to="/farmer/procurement-requests">
+          <li>Procurement Requests</li>
+        </Link>
+
+        <Link to="/farmer/finalized-procurements">
+          <li>Procurements</li>
+        </Link>
+
+        <Link to="/farmer/payment-dues">
+          <li>Payment Dues</li>
+        </Link>
+
+        <Link to="/farmer/transactions">
+          <li>History</li>
+        </Link>
+        <button onClick={handleLogout} className="text-red-600 font-medium">
+          Logout
+        </button>
+      </nav>
+    </header>
+  );
+}

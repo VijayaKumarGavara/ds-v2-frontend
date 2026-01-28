@@ -29,7 +29,7 @@ const MakeProcurement = ({ farmerSelected, unSelectFarmer }) => {
       }
       const jsonResponse = await response.json();
       setStatusMessage(
-        `Procurement added: ${cropDetails.crop_name} (${quantity} ${cropDetails.crop_units})`,
+        `Procurement added: ${jsonResponse.data.request_id} ${cropDetails.crop_name} (${quantity} ${cropDetails.crop_units})`,
       );
 
       setSelectedCropName("");
@@ -38,10 +38,14 @@ const MakeProcurement = ({ farmerSelected, unSelectFarmer }) => {
 
       setTimeout(() => {
         setStatusMessage("");
-        unSelectFarmer(); 
-      }, 10000); 
+        unSelectFarmer();
+      }, 10000);
     } catch (error) {
       console.log(error.message);
+      setStatusMessage(`Error occured: ${error.message}`);
+      setTimeout(()=>{
+        setStatusMessage("");
+      },5000);
     }
   }
   async function fetchUnits(crop_name) {

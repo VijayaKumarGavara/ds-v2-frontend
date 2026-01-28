@@ -1,39 +1,39 @@
 import { useState, useEffect } from "react";
 import { API_URL } from "../../utils/constants";
-import { Link } from "react-router";
 
 const PaymentDues = () => {
   const [paymentDues, setPaymentDues] = useState([]);
-  const buyer_id = "B123";
+  const farmer_id = "F1769576873058";
   useEffect(() => {
-    async function fetchProcurements() {
+    (async () => {
       try {
         const response = await fetch(
-          `${API_URL}/api/buyer/payment-dues?buyer_id=${buyer_id}`,
+          `${API_URL}/api/farmer/payment-dues?farmer_id=${farmer_id}`,
           { method: "GET", headers: { "Content-Type": "application/json" } },
         );
         if (!response.ok) {
-          throw new Error("Error while fetching the procurements");
+          throw new Error("Error while fetching the procurement requests");
         }
         const jsonResponse = await response.json();
         setPaymentDues(jsonResponse?.data);
       } catch (error) {
         console.log(error.message);
       }
-    }
-    fetchProcurements();
+    })();
   }, []);
   return (
     <>
-      <h1>Payment Dues</h1>
-      {paymentDues?.map((p) => {
+      <div>PaymentDues</div>
+      {paymentDues.map((p, index) => {
         return (
-          <div key={p.due_id}>
-            <div>{p.farmer_name}</div>
-            <div>{`Balance: ${p.balance_amount} - Paid: ${p.total_paid_amount}`}</div>
-            <Link to="/buyer/make-payment" state={{ p }}>
-              Pay Now
-            </Link>
+          <div key={index}>
+            <div>{p.buyer_name}-</div>
+            <div>
+            <span className="text-green-500 font-medium ">
+              Total Paid Amount: {p.total_paid_amount}
+            </span>
+            <span className="text-red-500 font-medium ">Balance Amount: {p.balance_amount}</span>
+            </div>
           </div>
         );
       })}
