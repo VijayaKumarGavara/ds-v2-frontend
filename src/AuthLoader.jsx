@@ -22,7 +22,7 @@ const AuthLoader = () => {
       })
       .then((data) => {
         localStorage.setItem("role", data.data.role);
-        navigate(`/${data.data.role}`, { replace: true });
+        // navigate(`/${data.data.role}`, { replace: true });
       })
       .catch((err) => {
         console.warn("Session invalid:", err.message);

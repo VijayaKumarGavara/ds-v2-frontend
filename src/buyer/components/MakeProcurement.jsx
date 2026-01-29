@@ -1,14 +1,24 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 import { API_URL } from "../../utils/constants";
 
-const MakeProcurement = ({ farmerSelected, unSelectFarmer }) => {
-  const { farmer_id, farmer_name, farmer_village } = farmerSelected;
+const MakeProcurement = () => {
   const buyer_id = "B123";
   const [selectedCropName, setSelectedCropName] = useState("");
   const [cropDetails, setCropDetails] = useState(null);
   const [quantity, setQuantity] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  const farmerSelected = location.state?.farmer;
+
+  if (!farmerSelected) {
+    navigate("/buyer/find-farmers", { replace: true });
+    return null;
+  }
+
+  const {farmer_id, farmer_name, farmer_village } = farmerSelected;
   async function handleProcurementSubmit(e) {
     e.preventDefault();
     const procurementRequestInfo = {
@@ -39,7 +49,6 @@ const MakeProcurement = ({ farmerSelected, unSelectFarmer }) => {
 
       setTimeout(() => {
         setStatusMessage("");
-        unSelectFarmer();
       }, 10000);
     } catch (error) {
       console.log(error.message);
@@ -77,10 +86,7 @@ const MakeProcurement = ({ farmerSelected, unSelectFarmer }) => {
         {farmer_name}-{farmer_village}
         <button
           type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            unSelectFarmer();
-          }}>
+          onClick={() => navigate(-1)}>
           Edit
         </button>
       </div>

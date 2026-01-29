@@ -9,6 +9,8 @@ import PaymentDues from "./components/PaymentDues";
 import MakePayment from "./components/MakePayment";
 import Transactions from "./components/Transactions";
 import Hero from "./components/Hero";
+import RecentFarmers from "./components/RecentFarmers";
+import MakeProcurement from "./components/MakeProcurement";
 
 const BuyerRoutes = () => {
   return (
@@ -16,7 +18,11 @@ const BuyerRoutes = () => {
       <Route element={<BuyerLayout />}>
         {/* default buyer dashboard */}
         <Route index element={<Hero />} />
-        <Route path="make-procurement" element={<FindFarmers />} />
+
+        <Route path="recent-farmers" element={<RecentFarmers/>}></Route>
+
+        <Route path="find-farmers" element={<FindFarmers />} />
+        <Route path="make-procurement" element={<MakeProcurement/>   }></Route>
         <Route
           path="procurement-requests"
           element={<ProcurementRequests />}
