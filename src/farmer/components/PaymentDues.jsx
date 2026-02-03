@@ -20,7 +20,7 @@ const PaymentDues = () => {
         console.log(error.message);
       }
     })();
-  }, []);
+  }, [farmer_id]);
   return (
     <>
       <div>PaymentDues</div>
@@ -29,10 +29,12 @@ const PaymentDues = () => {
           <div key={index}>
             <div>{p.buyer_name}-</div>
             <div>
-            <span className="text-green-500 font-medium ">
-              Total Paid Amount: {p.total_paid_amount}
-            </span>
-            <span className="text-red-500 font-medium ">Balance Amount: {p.balance_amount}</span>
+              <span className="text-green-500 font-medium ">
+                Total Paid Amount: {p.total_paid_amount}
+              </span>
+              <span className="text-red-500 font-medium ">
+                Balance Amount: {p.balance_amount}
+              </span>
             </div>
           </div>
         );

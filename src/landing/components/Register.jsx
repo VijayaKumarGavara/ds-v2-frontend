@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import { API_URL } from "../../utils/constants";
 
 const Register = () => {
@@ -67,15 +67,69 @@ const Register = () => {
   }
 
   return (
-    <form className="flex flex-col gap-4 max-w-60" onSubmit={handleSubmit}>
-      <h1>Register</h1>
+    // <form className="flex flex-col gap-4 max-w-60" onSubmit={handleSubmit}>
+    //   <h1>Register</h1>
+
+    //   <select
+    //     value={role}
+    //     onChange={(e) => setRole(e.target.value)}
+    //     className="border px-2"
+    //   >
+    //     <option value="buyer">Buyer</option>
+    //     <option value="farmer">Farmer</option>
+    //   </select>
+
+    //   <input
+    //     type="text"
+    //     name="name"
+    //     placeholder="Name"
+    //     value={formData.name}
+    //     onChange={handleChange}
+    //     required
+    //     className="border px-2"
+    //   />
+
+    //   <input
+    //     type="text"
+    //     name="village"
+    //     placeholder="Village"
+    //     value={formData.village}
+    //     onChange={handleChange}
+    //     required
+    //     className="border px-2"
+    //   />
+
+    //   <input
+    //     type="text"
+    //     name="mobile"
+    //     placeholder="Mobile"
+    //     value={formData.mobile}
+    //     onChange={handleChange}
+    //     required
+    //     className="border px-2"
+    //   />
+
+    //   <input
+    //     type="password"
+    //     name="password"
+    //     placeholder="Password"
+    //     value={formData.password}
+    //     onChange={handleChange}
+    //     required
+    //     className="border px-2"
+    //   />
+
+    //   <button className="bg-green-400 px-4 py-2">Register</button>
+    // </form>
+
+    <form className="mt-20 mx-auto flex flex-col gap-4 max-w-60" onSubmit={handleSubmit}>
+      <h1 className="text-xl text-center font-heading font-bold text-gray-800">Register</h1>
 
       {/* ROLE SELECT */}
       <select
         value={role}
         onChange={(e) => setRole(e.target.value)}
-        className="border px-2"
-      >
+        className="border border-gray-300  px-2 py-1 rounded">
         <option value="buyer">Buyer</option>
         <option value="farmer">Farmer</option>
       </select>
@@ -87,7 +141,7 @@ const Register = () => {
         value={formData.name}
         onChange={handleChange}
         required
-        className="border px-2"
+        className="border border-gray-300 px-2 py-1 rounded"
       />
 
       <input
@@ -97,7 +151,7 @@ const Register = () => {
         value={formData.village}
         onChange={handleChange}
         required
-        className="border px-2"
+        className="border border-gray-300 px-2 py-1 rounded"
       />
 
       <input
@@ -107,7 +161,7 @@ const Register = () => {
         value={formData.mobile}
         onChange={handleChange}
         required
-        className="border px-2"
+        className="border border-gray-300 px-2 py-1 rounded"
       />
 
       <input
@@ -117,10 +171,24 @@ const Register = () => {
         value={formData.password}
         onChange={handleChange}
         required
-        className="border px-2"
+        className="border border-gray-300 px-2 py-1 rounded"
       />
 
-      <button className="bg-green-400 px-4 py-2">Register</button>
+      <button
+        type="submit"
+        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-ui font-medium">
+        Register
+      </button>
+
+      {/* Bottom helper text */}
+      <p className="text-sm text-center text-gray-600 mt-2">
+        Already have an account?{" "}
+        <Link
+          to="/login"
+          className="text-green-600 font-medium hover:underline">
+          Login
+        </Link>
+      </p>
     </form>
   );
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 import { API_URL } from "../../utils/constants";
 
 const Login = () => {
@@ -61,15 +61,13 @@ const Login = () => {
   }
 
   return (
-    <form className="flex flex-col gap-4 max-w-60" onSubmit={handleSubmit}>
-      <h1>Login</h1>
+    <form className="mt-20 flex flex-col mx-auto gap-4 max-w-60" onSubmit={handleSubmit}>
+      <h1 className="text-center text-xl font-heading font-bold text-gray-800">Login</h1>
 
-      {/* ROLE SELECT */}
       <select
         value={role}
         onChange={(e) => setRole(e.target.value)}
-        className="border px-2"
-      >
+        className="border border-gray-300 px-2 py-1 rounded">
         <option value="buyer">Buyer</option>
         <option value="farmer">Farmer</option>
       </select>
@@ -80,7 +78,7 @@ const Login = () => {
         placeholder="Mobile"
         value={formData.mobile}
         onChange={handleChange}
-        className="border px-2"
+        className="border border-gray-300 px-2 py-1 rounded"
         required
       />
 
@@ -90,11 +88,32 @@ const Login = () => {
         placeholder="Password"
         value={formData.password}
         onChange={handleChange}
-        className="border px-2"
+        className="border border-gray-300 px-2 py-1 rounded"
         required
       />
 
-      <button className="bg-green-400 px-4 py-2">Login</button>
+      <div className="text-right">
+        <Link
+          to="/forgot-password"
+          className="text-sm font-ui text-green-600 hover:underline">
+          Forgot password?
+        </Link>
+      </div>
+
+      <button
+        type="submit"
+        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-ui font-medium">
+        Login
+      </button>
+
+      <p className="text-sm text-center text-gray-600 mt-2">
+        Don't have an account?{" "}
+        <Link
+          to="/register"
+          className="text-green-600 font-medium hover:underline">
+          Register
+        </Link>
+      </p>
     </form>
   );
 };
