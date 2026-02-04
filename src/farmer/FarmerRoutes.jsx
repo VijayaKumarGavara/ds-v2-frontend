@@ -7,10 +7,10 @@ import PaymentDues from "./components/PaymentDues";
 import Transactions from "./components/Transactions";
 import Profile from "./components/Profile";
 
-const FarmerRoutes = () => {
+const FarmerRoutes = ({toggleTheme, theme}) => {
   return (
     <Routes>
-      <Route element={<FarmerLayout />}>
+      <Route element={<FarmerLayout toggleTheme={toggleTheme} theme={theme}/>}>
         {/* default farmer dashboard */}
         <Route index element={<Hero />} />
 

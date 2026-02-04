@@ -67,129 +67,142 @@ const Register = () => {
   }
 
   return (
-    // <form className="flex flex-col gap-4 max-w-60" onSubmit={handleSubmit}>
-    //   <h1>Register</h1>
-
-    //   <select
-    //     value={role}
-    //     onChange={(e) => setRole(e.target.value)}
-    //     className="border px-2"
-    //   >
-    //     <option value="buyer">Buyer</option>
-    //     <option value="farmer">Farmer</option>
-    //   </select>
-
-    //   <input
-    //     type="text"
-    //     name="name"
-    //     placeholder="Name"
-    //     value={formData.name}
-    //     onChange={handleChange}
-    //     required
-    //     className="border px-2"
-    //   />
-
-    //   <input
-    //     type="text"
-    //     name="village"
-    //     placeholder="Village"
-    //     value={formData.village}
-    //     onChange={handleChange}
-    //     required
-    //     className="border px-2"
-    //   />
-
-    //   <input
-    //     type="text"
-    //     name="mobile"
-    //     placeholder="Mobile"
-    //     value={formData.mobile}
-    //     onChange={handleChange}
-    //     required
-    //     className="border px-2"
-    //   />
-
-    //   <input
-    //     type="password"
-    //     name="password"
-    //     placeholder="Password"
-    //     value={formData.password}
-    //     onChange={handleChange}
-    //     required
-    //     className="border px-2"
-    //   />
-
-    //   <button className="bg-green-400 px-4 py-2">Register</button>
-    // </form>
-
-    <form className="mt-20 mx-auto flex flex-col gap-4 max-w-60" onSubmit={handleSubmit}>
-      <h1 className="text-xl text-center font-heading font-bold text-gray-800">Register</h1>
-
-      {/* ROLE SELECT */}
-      <select
-        value={role}
-        onChange={(e) => setRole(e.target.value)}
-        className="border border-gray-300  px-2 py-1 rounded">
-        <option value="buyer">Buyer</option>
-        <option value="farmer">Farmer</option>
-      </select>
-
-      <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        value={formData.name}
-        onChange={handleChange}
-        required
-        className="border border-gray-300 px-2 py-1 rounded"
+    <>
+      {/* Background gradient layer */}
+      <div
+        className="
+      absolute inset-0
+      bg-gradient-to-b
+      from-light-bg/40 via-light-bg/30 to-brand-700/30
+      dark:from-dark-bg/80 dark:via-dark-bg/60 dark:to-dark-bg/70
+      blur-sm
+    "
       />
 
-      <input
-        type="text"
-        name="village"
-        placeholder="Village"
-        value={formData.village}
-        onChange={handleChange}
-        required
-        className="border border-gray-300 px-2 py-1 rounded"
-      />
+      {/* Form */}
+      <form
+        className="
+      relative z-10 mt-24 mx-auto
+      flex flex-col gap-4
+      max-w-xs
+      rounded-xl
+      bg-light-card/90 dark:bg-dark-card/90
+      backdrop-blur-md
+      border border-light-border dark:border-dark-border
+      px-6 py-6
+    "
+        onSubmit={handleSubmit}>
+        <h1 className="text-xl text-center font-heading font-bold text-light-text dark:text-dark-text">
+          Register
+        </h1>
 
-      <input
-        type="text"
-        name="mobile"
-        placeholder="Mobile"
-        value={formData.mobile}
-        onChange={handleChange}
-        required
-        className="border border-gray-300 px-2 py-1 rounded"
-      />
+        {/* ROLE SELECT */}
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          className="
+        rounded-md px-2 py-2
+        bg-light-bg dark:bg-dark-bg
+        border border-light-border dark:border-dark-border
+        text-light-text dark:text-dark-text
+        font-body
+      ">
+          <option value="buyer">Buyer</option>
+          <option value="farmer">Farmer</option>
+        </select>
 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        required
-        className="border border-gray-300 px-2 py-1 rounded"
-      />
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          className="
+        rounded-md px-2 py-2
+        bg-light-bg dark:bg-dark-bg
+        border border-light-border dark:border-dark-border
+        text-light-text dark:text-dark-text
+        placeholder:text-light-text2 dark:placeholder:text-dark-text2
+        font-body
+      "
+        />
 
-      <button
-        type="submit"
-        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-ui font-medium">
-        Register
-      </button>
+        <input
+          type="text"
+          name="village"
+          placeholder="Village"
+          value={formData.village}
+          onChange={handleChange}
+          required
+          className="
+        rounded-md px-2 py-2
+        bg-light-bg dark:bg-dark-bg
+        border border-light-border dark:border-dark-border
+        text-light-text dark:text-dark-text
+        placeholder:text-light-text2 dark:placeholder:text-dark-text2
+        font-body
+      "
+        />
 
-      {/* Bottom helper text */}
-      <p className="text-sm text-center text-gray-600 mt-2">
-        Already have an account?{" "}
-        <Link
-          to="/login"
-          className="text-green-600 font-medium hover:underline">
-          Login
-        </Link>
-      </p>
-    </form>
+        <input
+          type="text"
+          name="mobile"
+          placeholder="Mobile Number"
+          value={formData.mobile}
+          onChange={handleChange}
+          required
+          className="
+        rounded-md px-2 py-2
+        bg-light-bg dark:bg-dark-bg
+        border border-light-border dark:border-dark-border
+        text-light-text dark:text-dark-text
+        placeholder:text-light-text2 dark:placeholder:text-dark-text2
+        font-body
+      "
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+          className="
+        rounded-md px-2 py-2
+        bg-light-bg dark:bg-dark-bg
+        border border-light-border dark:border-dark-border
+        text-light-text dark:text-dark-text
+        placeholder:text-light-text2 dark:placeholder:text-dark-text2
+        font-body
+      "
+        />
+
+        <button
+          type="submit"
+          className="
+        mt-2 rounded-full
+        bg-brand-500 hover:bg-brand-600
+        px-4 py-2
+        text-white
+        font-ui font-medium
+        transition
+      ">
+          Register
+        </button>
+
+        {/* Bottom helper text */}
+        <p className="text-sm text-center text-light-text2 dark:text-dark-text2 mt-2">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="text-brand-500 font-medium hover:underline">
+            Login
+          </Link>
+        </p>
+      </form>
+    </>
   );
 };
 

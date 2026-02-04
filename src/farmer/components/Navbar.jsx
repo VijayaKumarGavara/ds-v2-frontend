@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router";
 
-export default function Navbar() {
+export default function Navbar({ toggleTheme, theme }) {
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -37,6 +37,12 @@ export default function Navbar() {
         </Link>
         <button onClick={handleLogout} className="text-red-600 font-medium">
           Logout
+        </button>
+        <button
+          onClick={toggleTheme}
+          className="rounded-full border border-light-border dark:border-dark-border px-3 py-1 text-sm font-ui"
+          aria-label="Toggle theme">
+          {theme === "dark" ? "🌙" : "☀️"}
         </button>
       </nav>
     </header>

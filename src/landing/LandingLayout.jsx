@@ -1,10 +1,10 @@
 import { Outlet } from "react-router";
 import Navbar from "./components/Navbar";
 
-const LandingLayout = () => {
+const LandingLayout = ({toggleTheme, theme }) => {
   return (
     <>
-      <Navbar />
+      <Navbar toggleTheme={toggleTheme} theme={theme}/>
       <Outlet />
     </>
   );

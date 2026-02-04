@@ -1,18 +1,16 @@
 import { Link } from "react-router";
 import { useEffect, useRef, useState } from "react";
 
-export default function Navbar() {
+export default function Navbar({ toggleTheme, theme }) {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef(null);
 
-  // Close menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (navRef.current && !navRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -22,64 +20,126 @@ export default function Navbar() {
   return (
     <header
       ref={navRef}
-      className="fixed top-0 z-30 w-full bg-gradient-to-b from-gray-500/80 backdrop-blur-md"
+      className="
+        fixed top-0 z-30 w-full
+        backdrop-blur-md
+        bg-gradient-to-b
+        from-light-bg/70 via-light-bg/50 to-light-bg/30
+        dark:from-dark-bg/80 dark:via-dark-bg/60 dark:to-dark-bg/40
+      "
     >
       <div className="flex items-center justify-between px-6 md:px-10 py-3">
+        {/* Logo */}
         <div className="flex items-center gap-3">
-          <div className="w-10 rounded-md bg-emerald-600">
+          <div className="w-10 rounded-md bg-brand-500">
             <img src="/DS_new.png" alt="Dhanya Sethu Logo" />
           </div>
-          <span className="text-2xl font-heading font-bold tracking-tight text-white">
+          <span className="text-2xl sm:text-3xl font-heading font-bold tracking-tight text-light-text dark:text-dark-text">
             Dhanya Sethu
           </span>
         </div>
 
-        <nav className="hidden md:flex gap-8 text-base md:text-lg font-body font-medium text-white">
-          <Link to="/" onClick={closeMenu}>Home</Link>
-          <a href="#solutions" onClick={closeMenu}>Our Solutions</a>
-          <a href="#howitworks" onClick={closeMenu}>How it Works</a>
-          <a href="#contact" onClick={closeMenu}>Contact</a>
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex gap-8 font-body font-medium text-light-text dark:text-dark-text">
+          {[
+            { label: "Home", to: "/" },
+            { label: "Our Solutions", to: "#solutions" },
+            { label: "How it Works", to: "#howitworks" },
+            { label: "Contact", to: "#contact" },
+          ].map((item) => (
+            <Link
+              key={item.label}
+              to={item.to}
+              onClick={closeMenu}
+              className="transition hover:text-light-text2 hover:dark:text-dark-text2"
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
+        {/* Desktop Actions */}
         <div className="hidden md:flex gap-4 items-center">
-          <Link to="/register" className="text-lg font-medium rounded-full px-4 py-1 text-white">
+          <Link
+            to="/register"
+            className="text-base font-medium rounded-full px-4 py-1 text-light-text dark:text-dark-text hover:text-light-text2 hover:dark:text-dark-text2"
+          >
             Sign Up
           </Link>
+
           <Link
             to="/login"
-            className="rounded-full bg-green-600 font-medium px-4 py-1 text-lg text-white"
+            className="rounded-full bg-brand-500 hover:bg-brand-600 px-4 py-1 text-base font-ui font-medium text-white transition"
           >
             Login
           </Link>
+
+          <button
+            onClick={toggleTheme}
+            className="rounded-full border border-light-border dark:border-dark-border px-3 py-1 text-sm font-ui"
+            aria-label="Toggle theme"
+          >
+            {theme !== "dark" ? "🌙" : "☀️"}
+          </button>
         </div>
 
+        {/* Hamburger */}
         <button
-          className="md:hidden text-white text-lg"
+          className="md:hidden text-light-text dark:text-dark-text text-xl"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
         >
-          {!isOpen?'☰':'⛌'}
+          {!isOpen ? "☰" : "⛌"}
         </button>
       </div>
 
+      {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden  backdrop-blur-sm px-6 py-6 space-y-6 font-body text-white">
-          <Link to="/" onClick={closeMenu} className="block">Home</Link>
-          <a href="#solutions" onClick={closeMenu} className="block">Our Solutions</a>
-          <a href="#howitworks" onClick={closeMenu} className="block">How it Works</a>
-          <a href="#contact" onClick={closeMenu} className="block">Contact</a>
+        <div
+          className="
+            md:hidden px-6 py-6 space-y-6 font-body
+            bg-light-card/90 dark:bg-dark-card/90
+            backdrop-blur-sm
+            text-light-text dark:text-dark-text
+          "
+        >
+          <a href="/" onClick={closeMenu} className="block hover:text-light-text2 hover:dark:text-dark-text2">
+            Home
+          </a>
+          <a href="#solutions" onClick={closeMenu} className="block hover:text-light-text2 hover:dark:text-dark-text2">
+            Our Solutions
+          </a>
+          <a href="#howitworks" onClick={closeMenu} className="block hover:text-light-text2 hover:dark:text-dark-text2">
+            How it Works
+          </a>
+          <a href="#contact" onClick={closeMenu} className="block hover:text-light-text2 hover:dark:text-dark-text2">
+            Contact
+          </a>
 
-          <div className="pt-4 border-t border-white/20 space-y-3">
-            <Link to="/register" onClick={closeMenu} className="block">
+          <div className="pt-4 border-t border-light-border dark:border-dark-border space-y-3">
+            <Link
+              to="/register"
+              onClick={closeMenu}
+              className="block hover:text-light-text2 hover:dark:text-dark-text2"
+            >
               Sign Up
             </Link>
+
             <Link
               to="/login"
               onClick={closeMenu}
-              className="block rounded-full max-w-max bg-green-600 px-4 py-2 text-center"
+              className="block max-w-max rounded-full bg-brand-500 hover:bg-brand-600 px-4 py-2 text-white transition"
             >
               Login
             </Link>
+
+            <button
+              onClick={toggleTheme}
+              className="rounded-full border border-light-border dark:border-dark-border px-3 py-1 text-sm font-ui"
+              aria-label="Toggle theme"
+            >
+              {theme !== "dark" ? "🌙" : "☀️"}
+            </button>
           </div>
         </div>
       )}

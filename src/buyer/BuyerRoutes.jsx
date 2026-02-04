@@ -12,10 +12,10 @@ import Hero from "./components/Hero";
 import RecentFarmers from "./components/RecentFarmers";
 import MakeProcurement from "./components/MakeProcurement";
 
-const BuyerRoutes = () => {
+const BuyerRoutes = ({toggleTheme, theme}) => {
   return (
     <Routes>
-      <Route element={<BuyerLayout />}>
+      <Route element={<BuyerLayout toggleTheme={toggleTheme} theme={theme}/>}>
         {/* default buyer dashboard */}
         <Route index element={<Hero />} />
 
