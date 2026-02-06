@@ -1,5 +1,8 @@
 import { Link, useNavigate } from "react-router";
-
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 export default function Navbar({ toggleTheme, theme }) {
   const navigate = useNavigate();
 
@@ -42,11 +45,11 @@ export default function Navbar({ toggleTheme, theme }) {
         </button>
 
         <button
-            onClick={toggleTheme}
-            className="rounded-full border border-light-border dark:border-dark-border px-3 py-1 text-sm font-ui"
-            aria-label="Toggle theme">
-            {theme === "dark" ? "🌙" : "☀️"}
-          </button>
+          onClick={toggleTheme}
+          className="rounded-full text-light-text dark:text-dark-text px-3 py-1 text-sm font-ui"
+          aria-label="Toggle theme">
+          {theme !== "dark" ? <DarkModeIcon /> : <LightModeIcon />}
+        </button>
       </nav>
     </header>
   );

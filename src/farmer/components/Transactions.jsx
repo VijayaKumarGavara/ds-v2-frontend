@@ -21,22 +21,58 @@ const Transactions = () => {
     })();
   }, []);
   return (
-    <>
-      <div>Transactions</div>
-      {transactions.map((t, index) => {
-        return (
-          <div key={index}>
-            <div>
-              {t.buyer_name} -{" "}
-              {new Date(t.createdAt).toISOString().split("T")[0]}
+    <section className="max-w-md mx-auto py-6">
+      {/* Section title */}
+      <h2 className="mb-6 text-center text-xl md:text-2xl font-heading font-bold text-light-text dark:text-dark-text">
+        Transactions
+      </h2>
+
+      {/* Empty state */}
+      {transactions.length === 0 && (
+        <div className="text-light-text2 dark:text-dark-text2 font-body">
+          No transactions available.
+        </div>
+      )}
+
+      {/* Transactions list */}
+      <div className="space-y-4">
+        {transactions.map((t, index) => {
+          const date = new Date(t.createdAt).toISOString().split("T")[0];
+
+          return (
+            <div
+              key={index}
+              className="
+                rounded-xl
+                bg-light-card dark:bg-dark-card
+                border border-light-border dark:border-dark-border
+                px-4 py-4
+                flex justify-between items-center
+              ">
+              {/* Buyer + date */}
+              <div className="flex flex-col">
+                <span className="font-ui font-medium text-light-text dark:text-dark-text">
+                  {t.buyer_name}
+                </span>
+                <span className="text-sm font-ui text-light-text2 dark:text-dark-text2">
+                  {date}
+                </span>
+              </div>
+
+              {/* Amount */}
+              <span
+                className="
+                  text-sm font-ui font-medium
+                  px-3 py-1 rounded-full
+                  bg-brand-500/10 text-brand-500
+                ">
+                ₹{t.amount}
+              </span>
             </div>
-            <div>
-              <span className=" font-medium ">{t.amount}</span>
-            </div>
-          </div>
-        );
-      })}
-    </>
+          );
+        })}
+      </div>
+    </section>
   );
 };
 

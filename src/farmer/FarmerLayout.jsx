@@ -1,12 +1,18 @@
 import { Outlet } from "react-router";
 import Navbar from "./components/Navbar";
-
-const FarmerLayout = ({toggleTheme, theme }) => {
+import FarmerBottomNav from "./components/FarmerBottomNav";
+const FarmerLayout = ({ toggleTheme, theme }) => {
   return (
     <>
-      <Navbar toggleTheme={toggleTheme} theme={theme}/>
-      <div className="p-4">
-        <Outlet />
+      <div className="min-h-screen bg-light-bg dark:bg-dark-bg">
+        <Navbar/>
+
+        {/* Content area */}
+        <main className="pt-20 px-4 md:px-8">
+          <Outlet context={{ theme, toggleTheme }}/>
+        </main>
+
+        <FarmerBottomNav/>
       </div>
     </>
   );

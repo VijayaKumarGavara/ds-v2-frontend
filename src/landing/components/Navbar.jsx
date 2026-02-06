@@ -1,6 +1,9 @@
 import { Link } from "react-router";
 import { useEffect, useRef, useState } from "react";
-
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 export default function Navbar({ toggleTheme, theme }) {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef(null);
@@ -26,8 +29,7 @@ export default function Navbar({ toggleTheme, theme }) {
         bg-gradient-to-b
         from-light-bg/70 via-light-bg/50 to-light-bg/30
         dark:from-dark-bg/80 dark:via-dark-bg/60 dark:to-dark-bg/40
-      "
-    >
+      ">
       <div className="flex items-center justify-between px-6 md:px-10 py-3">
         {/* Logo */}
         <div className="flex items-center gap-3">
@@ -51,8 +53,7 @@ export default function Navbar({ toggleTheme, theme }) {
               key={item.label}
               to={item.to}
               onClick={closeMenu}
-              className="transition hover:text-light-text2 hover:dark:text-dark-text2"
-            >
+              className="transition hover:text-light-text2 hover:dark:text-dark-text2">
               {item.label}
             </Link>
           ))}
@@ -62,24 +63,21 @@ export default function Navbar({ toggleTheme, theme }) {
         <div className="hidden md:flex gap-4 items-center">
           <Link
             to="/register"
-            className="text-base font-medium rounded-full px-4 py-1 text-light-text dark:text-dark-text hover:text-light-text2 hover:dark:text-dark-text2"
-          >
+            className="text-base font-medium rounded-full px-4 py-1 text-light-text dark:text-dark-text hover:text-light-text2 hover:dark:text-dark-text2">
             Sign Up
           </Link>
 
           <Link
             to="/login"
-            className="rounded-full bg-brand-500 hover:bg-brand-600 px-4 py-1 text-base font-ui font-medium text-white transition"
-          >
+            className="rounded-full bg-brand-500 hover:bg-brand-600 px-4 py-1 text-base font-ui font-medium text-white transition">
             Login
           </Link>
 
           <button
             onClick={toggleTheme}
-            className="rounded-full border border-light-border dark:border-dark-border px-3 py-1 text-sm font-ui"
-            aria-label="Toggle theme"
-          >
-            {theme !== "dark" ? "🌙" : "☀️"}
+            className="rounded-full text-light-text dark:text-dark-text px-3 py-1 text-sm font-ui"
+            aria-label="Toggle theme">
+            {theme !== "dark" ? <DarkModeIcon /> : <LightModeIcon />}
           </button>
         </div>
 
@@ -88,8 +86,8 @@ export default function Navbar({ toggleTheme, theme }) {
           className="md:hidden text-light-text dark:text-dark-text text-xl"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
-        >
-          {!isOpen ? "☰" : "⛌"}
+          aria-expanded={isOpen}>
+          {!isOpen ? <MenuIcon/> : <CloseIcon/>}
         </button>
       </div>
 
@@ -97,48 +95,46 @@ export default function Navbar({ toggleTheme, theme }) {
       {isOpen && (
         <div
           className="
-            md:hidden px-6 py-6 space-y-6 font-body
+            md:hidden flex flex-col px-6 py-6 space-y-6 font-body
             bg-light-card/90 dark:bg-dark-card/90
             backdrop-blur-sm
             text-light-text dark:text-dark-text
-          "
-        >
-          <a href="/" onClick={closeMenu} className="block hover:text-light-text2 hover:dark:text-dark-text2">
-            Home
-          </a>
-          <a href="#solutions" onClick={closeMenu} className="block hover:text-light-text2 hover:dark:text-dark-text2">
-            Our Solutions
-          </a>
-          <a href="#howitworks" onClick={closeMenu} className="block hover:text-light-text2 hover:dark:text-dark-text2">
-            How it Works
-          </a>
-          <a href="#contact" onClick={closeMenu} className="block hover:text-light-text2 hover:dark:text-dark-text2">
-            Contact
-          </a>
+          ">
+          {[
+            { label: "Home", to: "/" },
+            { label: "Our Solutions", to: "#solutions" },
+            { label: "How it Works", to: "#howitworks" },
+            { label: "Contact", to: "#contact" },
+          ].map((item) => (
+            <Link
+              key={item.label}
+              to={item.to}
+              onClick={closeMenu}
+              className="transition hover:text-light-text2 hover:dark:text-dark-text2">
+              {item.label}
+            </Link>
+          ))}
 
           <div className="pt-4 border-t border-light-border dark:border-dark-border space-y-3">
             <Link
               to="/register"
               onClick={closeMenu}
-              className="block hover:text-light-text2 hover:dark:text-dark-text2"
-            >
+              className="block hover:text-light-text2 hover:dark:text-dark-text2">
               Sign Up
             </Link>
 
             <Link
               to="/login"
               onClick={closeMenu}
-              className="block max-w-max rounded-full bg-brand-500 hover:bg-brand-600 px-4 py-2 text-white transition"
-            >
+              className="block max-w-max rounded-full bg-brand-500 hover:bg-brand-600 px-4 py-2 text-white transition">
               Login
             </Link>
 
             <button
               onClick={toggleTheme}
-              className="rounded-full border border-light-border dark:border-dark-border px-3 py-1 text-sm font-ui"
-              aria-label="Toggle theme"
-            >
-              {theme !== "dark" ? "🌙" : "☀️"}
+              className="rounded-full text-light-text dark:text-dark-text px-3 py-1 text-sm font-ui"
+              aria-label="Toggle theme">
+              {theme !== "dark" ? <DarkModeIcon /> : <LightModeIcon />}
             </button>
           </div>
         </div>
