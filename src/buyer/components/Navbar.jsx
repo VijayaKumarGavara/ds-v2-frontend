@@ -1,56 +1,58 @@
-import { Link, useNavigate } from "react-router";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-export default function Navbar({ toggleTheme, theme }) {
-  const navigate = useNavigate();
+import { Link } from "react-router";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-  function handleLogout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    navigate("/", { replace: true });
-  }
+
+const menuItems = [
+  { label: "Home", to: "/buyer" },
+  { label: "Recent Farmers", to: "/buyer/recent-farmers" },
+  { label: "Make Procurement", to: "/buyer/find-farmers" },
+  { label: "Requests", to: "/buyer/procurement-requests" },
+  { label: "Procurements", to: "/buyer/finalized-procurements" },
+  { label: "Payment Dues", to: "/buyer/payment-dues" },
+  { label: "History", to: "/buyer/transactions" },
+];
+
+export default function Navbar() {
+  
   return (
-    <header className="flex px-10 items-center">
-      <div className="flex px-10 py-2 items-center gap-4">
-        <div className="w-10 rounded-md bg-slate-300">
-          <img src="/DS_new.png" alt="Dhanya Sethu Logo" />
+    <header
+      className="
+        fixed top-0 z-30 w-full
+        backdrop-blur-md
+        bg-light-bg/80 dark:bg-dark-bg/80
+        border-b border-light-border dark:border-dark-border
+      ">
+      <div className="flex items-center justify-between px-6 md:px-10 py-3">
+        {/* Logo */}
+        <div className="flex items-center gap-3">
+          <div className="w-10 rounded-md bg-brand-500">
+            <img src="/DS_new.png" alt="Dhanya Sethu Logo" />
+          </div>
+          <span className="text-2xl sm:text-3xl font-heading font-bold tracking-tight text-light-text dark:text-dark-text">
+            Dhanya Sethu
+          </span>
         </div>
-        <div className="text-4xl font-medium">Dhanya Sethu</div>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-8 font-body font-medium text-light-text dark:text-dark-text">
+          {menuItems.map((item) => (
+            <Link
+              key={item.label}
+              to={item.to}
+              className="transition hover:text-light-text2 hover:dark:text-dark-text2">
+              {" "}
+              {item.label}{" "}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Desktop Actions */}
+        <div className=" md:flex items-center font-medium text-light-text dark:text-dark-text">
+          <Link to="/buyer/profile">
+            <AccountCircleIcon fontSize="large" />
+          </Link>
+        </div>
       </div>
-
-      <nav className="flex list-none gap-8">
-        <Link to="/buyer">Home</Link>
-        <Link to="/buyer/recent-farmers">Recent Farmers</Link>
-        <Link to="/buyer/find-farmers">Make Procurement</Link>
-        <Link to="/buyer/procurement-requests">
-          <li>Procurement Requests</li>
-        </Link>
-
-        <Link to="/buyer/finalized-procurements">
-          <li>Procurements</li>
-        </Link>
-
-        <Link to="/buyer/payment-dues">
-          <li>Payment Dues</li>
-        </Link>
-
-        <Link to="/buyer/transactions">
-          <li>History</li>
-        </Link>
-
-        <button onClick={handleLogout} className="text-red-600 font-medium">
-          Logout
-        </button>
-
-        <button
-          onClick={toggleTheme}
-          className="rounded-full text-light-text dark:text-dark-text px-3 py-1 text-sm font-ui"
-          aria-label="Toggle theme">
-          {theme !== "dark" ? <DarkModeIcon /> : <LightModeIcon />}
-        </button>
-      </nav>
     </header>
   );
 }

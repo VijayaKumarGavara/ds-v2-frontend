@@ -58,11 +58,11 @@ const Register = () => {
 
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.message || "Login failed");
+        throw new Error(data.message || "Registration failed");
       }
       setStatus({
         type: "success",
-        message: data.message || "Login successful",
+        message: data.message || "Registration successful",
       });
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
@@ -231,8 +231,8 @@ const Register = () => {
         font-ui font-medium
         transition
       "
-      disabled={loading}>
-          {loading?"Loading...":"Register"}
+          disabled={loading}>
+          {loading ? "Loading..." : "Register"}
         </button>
 
         {/* Bottom helper text */}

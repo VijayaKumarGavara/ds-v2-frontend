@@ -1,13 +1,7 @@
 import { Link } from "react-router";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const MENU_ITEMS = [
-  { label: "Home", to: "/farmer" },
-  { label: "Procurement Requests", to: "/farmer/procurement-requests" },
-  { label: "Procurements", to: "/farmer/finalized-procurements" },
-  { label: "Payment Dues", to: "/farmer/payment-dues" },
-  { label: "History", to: "/farmer/transactions" },
-];
+
 
 export default function Navbar() {
   const menuItems = [
@@ -23,9 +17,8 @@ export default function Navbar() {
       className="
         fixed top-0 z-30 w-full
         backdrop-blur-md
-        bg-gradient-to-b
-        from-light-bg/70 via-light-bg/50 to-light-bg/30
-        dark:from-dark-bg/80 dark:via-dark-bg/60 dark:to-dark-bg/40
+        bg-light-bg/80 dark:bg-dark-bg/80
+        border-b border-light-border dark:border-dark-border
       ">
       <div className="flex items-center justify-between px-6 md:px-10 py-3">
         {/* Logo */}

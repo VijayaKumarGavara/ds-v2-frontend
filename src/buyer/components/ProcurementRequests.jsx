@@ -25,10 +25,23 @@ const ProcurementRequests = () => {
   }, []);
   return (
     <>
-      <h1>Procurement Requests</h1>
-      {procurementRequests?.map((request) => {
-        return <RequestCard request={request} key={request.request_id} />;
-      })}
+      <section className="max-w-md mx-auto px-4 min-h-screen">
+        <h2 className="mb-4 text-center text-lg font-heading font-semibold text-light-text dark:text-dark-text">
+          Procurement Requests
+        </h2>
+
+        {procurementRequests.length === 0 && (
+          <div className="text-sm text-light-text2 dark:text-dark-text2">
+            No pending procurement requests.
+          </div>
+        )}
+
+        <ul className="divide-y divide-light-border dark:divide-dark-border">
+          {procurementRequests.map((request) => (
+            <RequestCard key={request.request_id} request={request} />
+          ))}
+        </ul>
+      </section>
     </>
   );
 };
