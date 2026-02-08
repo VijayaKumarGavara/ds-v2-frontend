@@ -1,18 +1,27 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+
 import { API_URL } from "../../utils/constants";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const RecentFarmers = () => {
   const navigate = useNavigate();
   const [farmers, setFarmers] = useState([]);
-  const buyer_id = "B123"; // replace later
-
+  const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
+  const token = localStorage.getItem("token");
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch(
           `${API_URL}/api/buyer/recent-farmers?buyer_id=${buyer_id}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
         );
         const json = await res.json();
         setFarmers(json?.data || []);

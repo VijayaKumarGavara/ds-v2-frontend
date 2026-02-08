@@ -1,51 +1,12 @@
-// import { useState, useEffect } from "react";
-// import { API_URL } from "../../utils/constants";
-
-// const FinalizedProcurements = () => {
-//   const [procurements, setProcurements] = useState([]);
-//   const buyer_id = "B123";
-//   useEffect(() => {
-//     async function fetchProcurements() {
-//       try {
-//         const response = await fetch(
-//           `${API_URL}/api/buyer/procurements?buyer_id=${buyer_id}`,
-//           { method: "GET", headers: { "Content-Type": "application/json" } },
-//         );
-//         if (!response.ok) {
-//           throw new Error("Error while fetching the procurements");
-//         }
-//         const jsonResponse = await response.json();
-//         setProcurements(jsonResponse?.data);
-//       } catch (error) {
-//         console.log(error.message);
-//       }
-//     }
-//     fetchProcurements();
-//   }, []);
-//   return (
-//     <>
-//       <h1>FinalizedProcurements</h1>
-//       {procurements?.map((p) => {
-//         return (
-//             <div key={p.procurement_id}>
-//                 <div>{p.farmer_name}-{p.total_amount}</div>
-//                 <div>{p.crop_name}-{`${p.quantity}${p.crop_units} - @${p.cost_per_unit}/${p.crop_units}`}</div>
-//             </div>
-//         )
-//       })}
-//     </>
-//   );
-// };
-
-// export default FinalizedProcurements;
-
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+
 import { API_URL } from "../../utils/constants";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const FinalizedProcurements = () => {
   const [procurements, setProcurements] = useState([]);
-  const buyer_id = "B123";
+  const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     (async () => {
@@ -54,8 +15,11 @@ const FinalizedProcurements = () => {
           `${API_URL}/api/buyer/procurements?buyer_id=${buyer_id}`,
           {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
         );
 
         if (!response.ok) {
@@ -100,8 +64,7 @@ const FinalizedProcurements = () => {
                 cursor-pointer
                 hover:bg-light-bg dark:hover:bg-dark-bg
                 transition
-              "
-            >
+              ">
               {/* Avatar */}
               <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
                 <span className="text-lg font-heading font-bold text-green-600">
@@ -132,8 +95,7 @@ const FinalizedProcurements = () => {
                   </div>
                 )}
               </div>
-
-             </li>
+            </li>
           );
         })}
       </ul>
@@ -142,4 +104,3 @@ const FinalizedProcurements = () => {
 };
 
 export default FinalizedProcurements;
-

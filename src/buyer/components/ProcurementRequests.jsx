@@ -1,16 +1,25 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+
 import { API_URL } from "../../utils/constants";
 import RequestCard from "./RequestCard";
 
 const ProcurementRequests = () => {
   const [procurementRequests, setProcurementRequests] = useState([]);
-  const buyer_id = "B123";
+  const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
   useEffect(() => {
     async function fetchProcurementRequests() {
       try {
+        const token = localStorage.getItem("token");
         const response = await fetch(
           `${API_URL}/api/buyer/procurement-requests?buyer_id=${buyer_id}`,
-          { method: "GET", headers: { "Content-Type": "application/json" } },
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
         );
         if (!response.ok) {
           throw new Error("Error while fetching the procurement requests");

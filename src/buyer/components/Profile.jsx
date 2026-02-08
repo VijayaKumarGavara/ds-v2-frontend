@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
+import { useSelector } from "react-redux";
+
 import { API_URL } from "../../utils/constants";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LightModeIcon from "@mui/icons-material/LightMode";
@@ -8,16 +10,24 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 const Profile = () => {
   const navigate = useNavigate();
   const { toggleTheme, theme } = useOutletContext();
-  const buyer_id = "B123";
+  const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
 
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const token = localStorage.getItem("token");
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch(
           `${API_URL}/api/buyer/profile?buyer_id=${buyer_id}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
         );
         const json = await res.json();
         setProfile(json?.data);

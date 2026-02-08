@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+
 import { API_URL } from "../../utils/constants";
 
 const MakeProcurement = () => {
-  const buyer_id = "B123";
+  const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,13 +60,17 @@ const MakeProcurement = () => {
 
     setSubmitting(true);
     setStatus(null);
+    const token = localStorage.getItem("token");
 
     try {
       if (procurementMode === "later") {
         // FINALIZE LATER
         const res = await fetch(`${API_URL}/api/procurement-request/add`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
             farmer_id,
             buyer_id,

@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+
 import { API_URL } from "../../utils/constants";
-import NorthEastIcon from '@mui/icons-material/NorthEast';
+
+import NorthEastIcon from "@mui/icons-material/NorthEast";
 
 const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
-  const buyer_id = "B123";
-
+  const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
+  const token = localStorage.getItem("token");
   useEffect(() => {
     (async () => {
       try {
@@ -13,8 +16,11 @@ const Transactions = () => {
           `${API_URL}/api/buyer/transactions?buyer_id=${buyer_id}`,
           {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
         );
 
         if (!response.ok) {
@@ -46,7 +52,7 @@ const Transactions = () => {
       {/* Transaction List */}
       <ul className="divide-y divide-light-border dark:divide-dark-border">
         {transactions.map((t) => {
-          const date = new Date(t.createdAt).toLocaleDateString('en-GB'); ;
+          const date = new Date(t.createdAt).toLocaleDateString("en-GB");
 
           return (
             <li
@@ -56,8 +62,7 @@ const Transactions = () => {
                 py-4
                 hover:bg-light-bg dark:hover:bg-dark-bg
                 transition
-              "
-            >
+              ">
               {/* Icon */}
               <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
                 <NorthEastIcon className="text-green-600" />

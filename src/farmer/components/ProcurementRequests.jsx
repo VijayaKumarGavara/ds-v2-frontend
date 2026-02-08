@@ -1,14 +1,23 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+
 import { API_URL } from "../../utils/constants";
 const ProcurementRequests = () => {
   const [procurementRequests, setProcurementRequests] = useState([]);
-  const farmer_id = "F1769576873058";
+  const farmer_id = useSelector((store) => store.user?.farmer?.farmer_id);
+  const token = localStorage.getItem("token");
   useEffect(() => {
     (async () => {
       try {
         const response = await fetch(
           `${API_URL}/api/farmer/sales?farmer_id=${farmer_id}`,
-          { method: "GET", headers: { "Content-Type": "application/json" } },
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
         );
         if (!response.ok) {
           throw new Error("Error while fetching the procurement requests");
@@ -21,7 +30,6 @@ const ProcurementRequests = () => {
     })();
   }, []);
   return (
-    
     <section className="max-w-md mx-auto py-6">
       {/* Section title */}
       <h2 className="mb-6 text-center text-xl md:text-2xl font-heading font-bold text-light-text dark:text-dark-text">
@@ -49,8 +57,7 @@ const ProcurementRequests = () => {
                 border border-light-border dark:border-dark-border
                 px-4 py-4
                 flex flex-col gap-3
-              "
-            >
+              ">
               {/* Top row */}
               <div className="flex justify-between items-start">
                 <div className="font-ui font-medium text-light-text dark:text-dark-text">
@@ -79,11 +86,10 @@ const ProcurementRequests = () => {
                       r.status === "pending"
                         ? "bg-accent/10 text-accent"
                         : r.status === "approved"
-                        ? "bg-brand-500/10 text-brand-500"
-                        : "bg-light-border text-light-text2 dark:bg-dark-border dark:text-dark-text2"
+                          ? "bg-brand-500/10 text-brand-500"
+                          : "bg-light-border text-light-text2 dark:bg-dark-border dark:text-dark-text2"
                     }
-                  `}
-                >
+                  `}>
                   {r.status}
                 </span>
               </div>

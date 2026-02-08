@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router";
+import { useSelector } from "react-redux";
+
 import { API_URL } from "../../utils/constants";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
 const Register = () => {
-  const buyer_id = "B123";
+  const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);

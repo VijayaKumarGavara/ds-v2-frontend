@@ -1,20 +1,22 @@
 import { Link } from "react-router";
+import { useSelector } from "react-redux";
+
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import SearchIcon from "@mui/icons-material/Search";
 import HistoryIcon from "@mui/icons-material/History";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import PaymentsIcon from "@mui/icons-material/Payments";
+// import AssignmentIcon from "@mui/icons-material/Assignment";
+// import PaymentsIcon from "@mui/icons-material/Payments";
 import PersonAddAltTwoToneIcon from "@mui/icons-material/PersonAddAltTwoTone";
 const Hero = () => {
-  const buyer_name = "Gudla Satyannarayana"; // later fetch dynamically
-
+  const buyer_name = useSelector((store) => store.user?.buyer?.buyer_name);
   return (
-    <section className="relative w-full min-h-[calc(100vh-140px)] md:min-h-[calc(100vh-80px)]
+    <section
+      className="relative w-full min-h-[calc(100vh-140px)] md:min-h-[calc(100vh-80px)]
     lg:min-h-[calc(100vh-80px)]">
       <div className="max-w-4xl mx-auto px-4 md:px-8">
         <div className="mb-6">
           <h1 className="text-lg font-heading font-semibold text-light-text dark:text-dark-text">
-            Hello, {buyer_name} 
+            Hello, {buyer_name}
           </h1>
           <p className="text-sm font-body text-light-text2 dark:text-dark-text2">
             Ready to start today's procurement?
@@ -108,8 +110,6 @@ const Hero = () => {
             </div>
           </Link>
         </div>
-
-        
       </div>
     </section>
   );

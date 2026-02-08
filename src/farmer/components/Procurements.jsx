@@ -1,14 +1,23 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+
 import { API_URL } from "../../utils/constants";
 const Procurements = () => {
   const [procurements, setProcurements] = useState([]);
-  const farmer_id = "F1769576873058";
+  const farmer_id = useSelector((store) => store.user?.farmer?.farmer_id);
   useEffect(() => {
     (async () => {
       try {
+        const token = localStorage.getItem("token");
         const response = await fetch(
           `${API_URL}/api/farmer/sales/finalized?farmer_id=${farmer_id}`,
-          { method: "GET", headers: { "Content-Type": "application/json" } },
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          },
         );
         if (!response.ok) {
           throw new Error("Error while fetching the procurement requests");

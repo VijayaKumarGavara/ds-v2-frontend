@@ -1,10 +1,20 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router";
-import { API_URL } from "../../utils/constants";
+import { useDispatch } from "react-redux";
+
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
+import { API_URL } from "../../utils/constants";
+import {
+  setLoggedInUserRole,
+  setLoggedInBuyer,
+  setLoggedInFarmer,
+} from "../../store/userSlice";
+
 const Register = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [role, setRole] = useState("buyer");
   const [showPassword, setShowPassword] = useState(false);
@@ -64,8 +74,16 @@ const Register = () => {
         type: "success",
         message: data.message || "Registration successful",
       });
+
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
+
+      dispatch(setLoggedInUserRole(data.role));
+      if (data.role === "buyer") {
+        dispatch(setLoggedInBuyer(data?.data));
+      } else {
+        dispatch(setLoggedInFarmer(data?.data));
+      }
 
       navigate(`/${data.role}`, { replace: true });
     } catch (error) {
