@@ -31,24 +31,7 @@ const PaymentDues = () => {
     })();
   }, [farmer_id]);
   return (
-    // <>
-    //   <div>PaymentDues</div>
-    //   {paymentDues.map((p, index) => {
-    //     return (
-    //       <div key={index}>
-    //         <div>{p.buyer_name}-</div>
-    //         <div>
-    //           <span className="text-green-500 font-medium ">
-    //             Total Paid Amount: {p.total_paid_amount}
-    //           </span>
-    //           <span className="text-red-500 font-medium ">
-    //             Balance Amount: {p.balance_amount}
-    //           </span>
-    //         </div>
-    //       </div>
-    //     );
-    //   })}
-    // </>
+    
     <>
       <section className="max-w-md mx-auto py-6">
         {/* Section title */}

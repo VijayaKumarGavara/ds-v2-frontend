@@ -92,7 +92,10 @@ const MakeProcurement = () => {
           `${API_URL}/api/procurement/add-finalized-procurement`,
           {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
             body: JSON.stringify({
               farmer_id,
               buyer_id,

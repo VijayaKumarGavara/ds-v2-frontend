@@ -46,7 +46,7 @@ const ProcurementRequests = () => {
       {/* Requests list */}
       <div className="space-y-4">
         {procurementRequests.map((r, index) => {
-          const date = new Date(r.createdAt).toISOString().split("T")[0];
+          const date = new Date(r.createdAt).toLocaleDateString("en-GB");
 
           return (
             <div

@@ -20,10 +20,13 @@ const FindFarmers = () => {
 
   async function handleSearch() {
     setHasSearched(true);
-
+    const token = localStorage.getItem("token");
     const response = await fetch(`${API_URL}/api/buyer/find-farmers`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(formData),
     });
 

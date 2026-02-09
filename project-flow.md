@@ -45,8 +45,16 @@ src/
 
 # Tasks:
 
-- 1. Redux for State Management
-- 2. Forget Password Page, flow and backend logic.
-- 3. For Farmers and Buyers need to add the edit to option update their profiles.
-- 4. While at Registration, provide an optional input field to upload/take photo and upload into backend(cloudinary).
-- 5. And in the backend need to add the middlewares to check the requested user is authorized or not.
+    - Forget Password Page, flow and backend logic.
+    - For Farmers and Buyers need to add the edit to option update their profiles.
+    - In recent farmers page of buyers need to add search option with debouncing.
+    - Landing Page with neat, modren, professional & suitable UI.
+
+    - Need to add filter in each page buyer's side.
+    - As well as, In the farmer's side need to change the UI display the buyer's profile pics in requests, procurements, payment-dues, & transactions.
+    - Add Filters( crop, buyer-wise, payment-status, request-status).
+
+    # In Buyer's Side:
+        - Need to add the respective filers alogn with the download and share features for the pdf files of the respective pages(can include filters) like a Ledger/Account Statements.
+
+    - Admin Panel:

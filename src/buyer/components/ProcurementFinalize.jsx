@@ -90,6 +90,7 @@ const ProcurementFinalize = () => {
           px-5 py-4
           mb-4
         ">
+          
         <div className="font-ui font-semibold text-light-text dark:text-dark-text">
           {farmer_name}
         </div>

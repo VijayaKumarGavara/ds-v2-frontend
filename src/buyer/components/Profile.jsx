@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
 import { useSelector } from "react-redux";
 
-import { API_URL } from "../../utils/constants";
+import { API_URL, BUYER_CLOUDINARY_URL, CLOUDINARY_URL } from "../../utils/constants";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -89,9 +89,9 @@ const Profile = () => {
         ">
         {/* Profile Image */}
         <div className="w-24 h-24 rounded-full bg-light-bg dark:bg-dark-bg flex items-center justify-center overflow-hidden">
-          {profile.image_url ? (
+          {profile.buyer_image_path ? (
             <img
-              src={profile.image_url}
+              src={`${BUYER_CLOUDINARY_URL}${profile.buyer_image_path}`}
               alt="Profile"
               className="w-full h-full object-cover"
             />

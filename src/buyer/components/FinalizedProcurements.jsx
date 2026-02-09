@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import { API_URL } from "../../utils/constants";
+import { API_URL, CLOUDINARY_URL } from "../../utils/constants";
 
 const FinalizedProcurements = () => {
   const [procurements, setProcurements] = useState([]);
@@ -67,9 +67,18 @@ const FinalizedProcurements = () => {
               ">
               {/* Avatar */}
               <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
-                <span className="text-lg font-heading font-bold text-green-600">
-                  {p.farmer_name?.[0]}
-                </span>
+                
+                {p.farmer_image_path ? (
+                  <img
+                    src={`${CLOUDINARY_URL}${p.farmer_image_path}`}
+                    alt={p.farmer_name}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <span className="text-lg font-heading font-bold text-brand-500">
+                    {p.farmer_name?.[0]}
+                  </span>
+                )}
               </div>
 
               {/* Details */}

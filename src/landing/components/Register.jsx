@@ -23,16 +23,20 @@ const Register = () => {
     village: "",
     mobile: "",
     password: "",
+    photo: null,
   });
   const [status, setStatus] = useState(null);
   // { type: "success" | "error", message: string }
 
   const [loading, setLoading] = useState(false);
   function handleChange(e) {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value, files } = e.target;
+
+    if (name === "photo") {
+      setFormData({ ...formData, photo: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   }
 
   async function handleSubmit(e) {
@@ -44,26 +48,27 @@ const Register = () => {
         ? `${API_URL}/api/buyer/register`
         : `${API_URL}/api/farmer/register`;
 
-    const payload =
-      role === "buyer"
-        ? {
-            buyer_name: formData.name,
-            buyer_village: formData.village,
-            buyer_mobile: formData.mobile,
-            buyer_password: formData.password,
-          }
-        : {
-            farmer_name: formData.name,
-            farmer_village: formData.village,
-            farmer_mobile: formData.mobile,
-            farmer_password: formData.password,
-          };
+    const formDataToSend = new FormData();
+
+    if (role === "buyer") {
+      formDataToSend.append("buyer_name", formData.name);
+      formDataToSend.append("buyer_village", formData.village);
+      formDataToSend.append("buyer_mobile", formData.mobile);
+      formDataToSend.append("buyer_password", formData.password);
+      formDataToSend.append("buyer_photo", formData.photo); // 🔥 MATCH multer
+    } else {
+      formDataToSend.append("farmer_name", formData.name);
+      formDataToSend.append("farmer_village", formData.village);
+      formDataToSend.append("farmer_mobile", formData.mobile);
+      formDataToSend.append("farmer_password", formData.password);
+      formDataToSend.append("farmer_photo", formData.photo); // 🔥 MATCH multer
+    }
+    
 
     try {
       const response = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: formDataToSend,
       });
 
       const data = await response.json();
@@ -126,7 +131,8 @@ const Register = () => {
       border border-light-border dark:border-dark-border
       px-6 py-6
     "
-        onSubmit={handleSubmit}>
+        onSubmit={handleSubmit}
+        encType="multipart/form-data">
         <h1 className="text-xl text-center font-heading font-bold text-light-text dark:text-dark-text">
           Register
         </h1>
@@ -157,6 +163,23 @@ const Register = () => {
           <option value="buyer">Buyer</option>
           <option value="farmer">Farmer</option>
         </select>
+
+        <input
+          type="file"
+          name="photo"
+          accept="image/*"
+          placeholder="Profile Image"
+          onChange={handleChange}
+          required
+          className="
+        rounded-md px-2 py-2
+        bg-light-bg dark:bg-dark-bg
+        border border-light-border dark:border-dark-border
+        text-light-text dark:text-dark-text
+        placeholder:text-light-text2 dark:placeholder:text-dark-text2
+        font-body
+      "
+        />
 
         <input
           type="text"

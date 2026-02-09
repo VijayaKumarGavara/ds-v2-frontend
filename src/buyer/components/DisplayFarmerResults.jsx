@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import PersonIcon from "@mui/icons-material/Person";
+import { CLOUDINARY_URL } from "../../utils/constants";
 
 const DisplayFarmerResults = ({ farmerResults }) => {
   const navigate = useNavigate();
@@ -27,8 +28,7 @@ const DisplayFarmerResults = ({ farmerResults }) => {
             text-left
             hover:bg-light-bg dark:hover:bg-dark-bg
             transition
-          "
-        >
+          ">
           {/* Avatar */}
           <div
             className="
@@ -38,9 +38,18 @@ const DisplayFarmerResults = ({ farmerResults }) => {
               text-brand-500
               flex items-center justify-center
               shrink-0
-            "
-          >
-            <PersonIcon />
+            ">
+            {farmer.farmer_image_path ? (
+              <img
+                src={`${CLOUDINARY_URL}${farmer.farmer_image_path}`}
+                alt={farmer.farmer_name}
+                className="w-full h-full rounded-full object-cover"
+              />
+            ) : (
+              <span className="text-lg font-heading font-bold text-brand-500">
+                {farmer.farmer_name?.[0]}
+              </span>
+            )}
           </div>
 
           {/* Farmer Info */}

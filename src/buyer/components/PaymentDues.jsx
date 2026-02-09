@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-import { API_URL } from "../../utils/constants";
+import { API_URL, CLOUDINARY_URL } from "../../utils/constants";
 
 const PaymentDues = () => {
   const [paymentDues, setPaymentDues] = useState([]);
@@ -77,9 +77,17 @@ const PaymentDues = () => {
                         : "bg-green-500/10 text-green-600"
                     }
                   `}>
-                  <span className="text-lg font-heading font-bold">
-                    {p.farmer_name?.[0]}
-                  </span>
+                  {p.farmer_image_path ? (
+                    <img
+                      src={`${CLOUDINARY_URL}${p.farmer_image_path}`}
+                      alt={p.farmer_name}
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-lg font-heading font-bold text-brand-500">
+                      {p.farmer_name?.[0]}
+                    </span>
+                  )}
                 </div>
 
                 {/* Details */}

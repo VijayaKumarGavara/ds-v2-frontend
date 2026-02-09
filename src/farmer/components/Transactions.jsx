@@ -46,7 +46,7 @@ const Transactions = () => {
       {/* Transactions list */}
       <div className="space-y-4">
         {transactions.map((t, index) => {
-          const date = new Date(t.createdAt).toISOString().split("T")[0];
+          const date = new Date(t.createdAt).toLocaleDateString("en-GB");
 
           return (
             <div
