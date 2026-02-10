@@ -8,6 +8,8 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 const RecentFarmers = () => {
   const navigate = useNavigate();
   const [farmers, setFarmers] = useState([]);
+  const [originalFarmersList, setOriginalFarmersList] = useState([]);
+  const [searchText, setSearchText] = useState("");
   const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -24,7 +26,9 @@ const RecentFarmers = () => {
           },
         );
         const json = await res.json();
-        setFarmers(json?.data || []);
+        const list = json?.data || [];
+        setOriginalFarmersList(list);
+        setFarmers(list);
       } catch (err) {
         console.log(err.message);
       }
@@ -36,6 +40,30 @@ const RecentFarmers = () => {
       state: { farmer },
     });
   }
+  function getSearchResults(searchText) {
+    let s = searchText.trim().toLowerCase();
+    let filtered = farmers.filter((farmer) => {
+      return (
+        farmer.farmer_name.toLowerCase().includes(s) ||
+        farmer.farmer_village.toLowerCase().includes(s) ||
+        farmer.farmer_mobile.includes(s)
+      );
+    });
+    return filtered;
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!searchText.trim()) {
+        setFarmers(originalFarmersList);
+        return;
+      }
+
+      setFarmers(getSearchResults(searchText));
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchText, originalFarmersList]);
 
   return (
     <section className="max-w-md mx-auto px-4 min-h-screen">
@@ -43,13 +71,53 @@ const RecentFarmers = () => {
         Recent Farmers
       </h2>
 
-      {farmers.length === 0 && (
+      {originalFarmersList.length === 0 && (
         <div className="text-sm text-light-text2 dark:text-dark-text2">
           No recent farmers yet.
         </div>
       )}
+      {farmers.length >= 0 && (
+        <div className="relative">
+          <input
+            type="text"
+            name="searchText"
+            placeholder="Search Farmer Name, Mobile, Village"
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+            className="
+              w-full rounded-md px-2 py-2 pr-16
+              bg-light-bg dark:bg-dark-bg
+              border border-light-border dark:border-dark-border
+              text-light-text dark:text-dark-text
+              placeholder:text-light-text2 dark:placeholder:text-dark-text2
+              font-body
+            "
+          />
+          <button
+            type="button"
+            hidden={!searchText}
+            title="clear"
+            onClick={() => {
+              setSearchText("");
+              setFarmers(originalFarmersList);
+            }}
+            className="
+              absolute right-2 top-1/2 -translate-y-1/2
+               font-ui
+              text-light-text2 dark:text-dark-text2
+                font-medium px-4 text-xl
+            ">
+            X
+          </button>
+        </div>
+      )}
 
-      <ul className="divide-y divide-light-border dark:divide-dark-border">
+      {originalFarmersList.length > 0 && farmers.length === 0 && (
+        <div>No farmers match your search.</div>
+      )}
+      <ul className="mt-5 divide-y divide-light-border dark:divide-dark-border">
         {farmers.map((farmer) => (
           <li
             key={farmer.farmer_id}
@@ -88,7 +156,7 @@ const RecentFarmers = () => {
 
                 {farmer.lastPurchaseAt && (
                   <div className="text-xs text-light-text2 dark:text-dark-text2 mt-0.5">
-                    {new Date(farmer.lastPurchaseAt).toLocaleDateString(
+                    Last: {new Date(farmer.lastPurchaseAt).toLocaleDateString(
                       "en-GB",
                     )}
                   </div>
