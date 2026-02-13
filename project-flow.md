@@ -46,8 +46,8 @@ src/
 # Tasks:
 
     - Forget Password Page, flow and backend logic.
+    
     - For Farmers and Buyers need to add the edit to option update their profiles.
-    - In recent farmers page of buyers need to add search option with debouncing.
     - Landing Page with neat, modren, professional & suitable UI.
 
     - Need to add filter in each page buyer's side.

@@ -42,7 +42,7 @@ const RecentFarmers = () => {
   }
   function getSearchResults(searchText) {
     let s = searchText.trim().toLowerCase();
-    let filtered = farmers.filter((farmer) => {
+    let filtered = originalFarmersList.filter((farmer) => {
       return (
         farmer.farmer_name.toLowerCase().includes(s) ||
         farmer.farmer_village.toLowerCase().includes(s) ||

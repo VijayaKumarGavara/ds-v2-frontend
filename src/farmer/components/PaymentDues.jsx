@@ -5,6 +5,9 @@ import { API_URL } from "../../utils/constants";
 
 const PaymentDues = () => {
   const [paymentDues, setPaymentDues] = useState([]);
+  const [status, setStatus] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const farmer_id = useSelector((store) => store.user?.farmer?.farmer_id);
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -20,18 +23,22 @@ const PaymentDues = () => {
             },
           },
         );
-        if (!response.ok) {
-          throw new Error("Error while fetching the procurement requests");
+        if (response.ok) {
+          throw new Error("Error while fetching the payment dues.");
         }
         const jsonResponse = await response.json();
         setPaymentDues(jsonResponse?.data);
       } catch (error) {
-        console.log(error.message);
+        setStatus({
+          type: "error",
+          message: error.message || "Something went wrong.",
+        });
+      } finally {
+        setIsLoading(false);
       }
     })();
   }, [farmer_id]);
   return (
-    
     <>
       <section className="max-w-md mx-auto py-6">
         {/* Section title */}
@@ -39,8 +46,34 @@ const PaymentDues = () => {
           Payment Dues
         </h2>
 
+        {/* Loading Message */}
+        {isLoading && (
+          <div
+            className={`
+            mb-4 rounded-md px-3 py-2 text-sm font-body
+            text-light-text dark:text-dark-text
+          `}>
+            Loading...
+          </div>
+        )}
+
+        {/* Status Message */}
+        {status && (
+          <div
+            className={`
+            mb-4 rounded-md px-3 py-2 text-sm font-body
+            ${
+              status.type === "success"
+                ? "bg-green-500/10 text-green-600 border border-green-500/20"
+                : "bg-red-500/10 text-red-600 border border-red-500/20"
+            }
+          `}>
+            {status.message}
+          </div>
+        )}
+
         {/* Empty state */}
-        {paymentDues.length === 0 && (
+        {!isLoading && status?.type!="error" && paymentDues.length === 0 && (
           <div className="text-light-text2 dark:text-dark-text2 font-body">
             No payment dues available.
           </div>

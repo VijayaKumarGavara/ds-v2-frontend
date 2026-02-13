@@ -2,15 +2,32 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { API_URL } from "../../utils/constants";
+import FarmerFilters from "./FarmerFilters";
 const ProcurementRequests = () => {
   const [procurementRequests, setProcurementRequests] = useState([]);
+  const [originalProcurementRequests, setOriginalProcurementRequests] =
+    useState([]);
+
+  const [status, setStatus] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const farmer_id = useSelector((store) => store.user?.farmer?.farmer_id);
+
+  // Filters:
+  const [selectedCrop, setSelectedCrop] = useState("all");
+
   const token = localStorage.getItem("token");
+
   useEffect(() => {
-    (async () => {
+    if (!farmer_id) return;
+    setStatus(null);
+    const fetchRequests = async () => {
       try {
+        const params = new URLSearchParams();
+        params.append("farmer_id", farmer_id);
+
         const response = await fetch(
-          `${API_URL}/api/farmer/sales?farmer_id=${farmer_id}`,
+          `${API_URL}/api/farmer/sales?${params.toString()}`,
           {
             method: "GET",
             headers: {
@@ -19,16 +36,34 @@ const ProcurementRequests = () => {
             },
           },
         );
+
         if (!response.ok) {
-          throw new Error("Error while fetching the procurement requests");
+          throw new Error("Error while fetching procurement requests");
         }
+
         const jsonResponse = await response.json();
-        setProcurementRequests(jsonResponse?.data);
+        setOriginalProcurementRequests(jsonResponse?.data || []);
+        setProcurementRequests(jsonResponse?.data || []);
       } catch (error) {
-        console.log(error.message);
+        setStatus({
+          type: "error",
+          message: error.message || "Something went wrong.",
+        });
+      }finally{
+        setIsLoading(false);
       }
-    })();
-  }, []);
+    };
+
+    fetchRequests();
+  }, [farmer_id]);
+
+  useEffect(() => {
+    const filteredRequests =
+      selectedCrop === "all"
+        ? originalProcurementRequests
+        : originalProcurementRequests.filter((r) => r.crop_id === selectedCrop);
+    setProcurementRequests(filteredRequests);
+  }, [selectedCrop, originalProcurementRequests]);
   return (
     <section className="max-w-md mx-auto py-6">
       {/* Section title */}
@@ -36,14 +71,46 @@ const ProcurementRequests = () => {
         Procurement Requests
       </h2>
 
+      {/* Requests list */}
+      <FarmerFilters
+        selectedCrop={selectedCrop}
+        onCropChange={setSelectedCrop}
+        showAgriYear={false}
+      />
+
+      {/* Loading Message */}
+      {isLoading && (
+        <div
+          className={`
+            mb-4 rounded-md px-3 py-2 text-sm font-body
+            text-light-text dark:text-dark-text
+          `}>
+          Loading...
+        </div>
+      )}
+
+      {/* Status Message */}
+      {status && (
+        <div
+          className={`
+            mb-4 rounded-md px-3 py-2 text-sm font-body
+            ${
+              status.type === "success"
+                ? "bg-green-500/10 text-green-600 border border-green-500/20"
+                : "bg-red-500/10 text-red-600 border border-red-500/20"
+            }
+          `}>
+          {status.message}
+        </div>
+      )}
+
       {/* Empty state */}
-      {procurementRequests.length === 0 && (
+      {!isLoading && procurementRequests.length === 0 && (
         <div className="text-light-text2 dark:text-dark-text2 font-body">
           No procurement requests available.
         </div>
       )}
 
-      {/* Requests list */}
       <div className="space-y-4">
         {procurementRequests.map((r, index) => {
           const date = new Date(r.createdAt).toLocaleDateString("en-GB");
@@ -58,7 +125,6 @@ const ProcurementRequests = () => {
                 px-4 py-4
                 flex flex-col gap-3
               ">
-              {/* Top row */}
               <div className="flex justify-between items-start">
                 <div className="font-ui font-medium text-light-text dark:text-dark-text">
                   {r.buyer_name}
@@ -68,7 +134,6 @@ const ProcurementRequests = () => {
                 </div>
               </div>
 
-              {/* Crop + status */}
               <div className="flex justify-between items-center font-body text-light-text dark:text-dark-text">
                 <div>
                   {r.crop_name}
