@@ -5,14 +5,19 @@ import { useSelector } from "react-redux";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 import { API_URL, CLOUDINARY_URL } from "../../utils/constants";
+import BuyerFilters from "./BuyerFilters";
 
 const PaymentDues = () => {
   const [paymentDues, setPaymentDues] = useState([]);
+  const [originalPaymentDues, setOriginalPaymentDues] = useState([]);
   const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [refetchIndex, setRefetchIndex] = useState(0);
   const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
   const token = localStorage.getItem("token");
+
+  const [searchText, setSearchText] = useState("");
+
   useEffect(() => {
     if (!buyer_id) return;
     (async () => {
@@ -31,6 +36,7 @@ const PaymentDues = () => {
 
         const json = await response.json();
         setPaymentDues(json?.data || []);
+        setOriginalPaymentDues(json?.data || []);
       } catch (error) {
         setStatus({
           type: "error",
@@ -42,6 +48,21 @@ const PaymentDues = () => {
     })();
   }, [buyer_id, refetchIndex]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const filteredPaymentDues = originalPaymentDues.filter((r) =>
+        searchText.trim()
+          ? r.farmer_name
+              .toLowerCase()
+              .includes(searchText.trim().toLowerCase())
+          : true,
+      );
+
+      setPaymentDues(filteredPaymentDues);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchText, originalPaymentDues]);
   return (
     <section className="max-w-md mx-auto min-h-screen">
       {/* Title */}
@@ -72,6 +93,8 @@ const PaymentDues = () => {
           </button>
         </div>
       )}
+
+      <BuyerFilters searchText={searchText} setSearchText={setSearchText} />
 
       {/* Empty state */}
       {!isLoading && !status && paymentDues.length === 0 && (

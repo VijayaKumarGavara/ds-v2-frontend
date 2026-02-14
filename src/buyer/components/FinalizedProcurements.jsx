@@ -2,32 +2,49 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { API_URL, CLOUDINARY_URL } from "../../utils/constants";
+import BuyerFilters from "./BuyerFilters";
+import getCurrentAgriYear from "../../utils/getCurrentAgriYear";
 
 const FinalizedProcurements = () => {
   const [procurements, setProcurements] = useState([]);
+  const [originalProcurements, setOriginalProcurements] = useState([]);
+
   const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [refetchIndex, setRefetchIndex] = useState(0);
+
   const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
+
+  // Filters:
+  const [selectedCrop, setSelectedCrop] = useState("all");
+  const [searchText, setSearchText] = useState("");
+  const [agriYear, setAgriYear] = useState(getCurrentAgriYear());
+
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (!buyer_id) return;
     (async () => {
+      const params = new URLSearchParams();
+      params.append("agri_year", agriYear);
       try {
-        const response = await fetch(`${API_URL}/api/buyer/procurements`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+        const response = await fetch(
+          `${API_URL}/api/buyer/procurements?${params.toString()}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           },
-        });
+        );
 
         if (!response.ok) {
           throw new Error("Error while fetching procurements");
         }
 
         const json = await response.json();
+        setOriginalProcurements(json?.data || []);
         setProcurements(json?.data || []);
       } catch (error) {
         setStatus({
@@ -38,7 +55,27 @@ const FinalizedProcurements = () => {
         setIsLoading(false);
       }
     })();
-  }, [buyer_id, refetchIndex]);
+  }, [buyer_id, agriYear, refetchIndex]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const filteredProcurements = originalProcurements
+        .filter((r) =>
+          selectedCrop === "all" ? true : r.crop_id === selectedCrop,
+        )
+        .filter((r) =>
+          searchText.trim()
+            ? r.farmer_name
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase())
+            : true,
+        );
+
+      setProcurements(filteredProcurements);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [selectedCrop, searchText, originalProcurements]);
 
   return (
     <section className="max-w-md mx-auto min-h-screen">
@@ -70,6 +107,17 @@ const FinalizedProcurements = () => {
           </button>
         </div>
       )}
+
+      <BuyerFilters
+        searchText={searchText}
+        setSearchText={setSearchText}
+        selectedCrop={selectedCrop}
+        onCropChange={setSelectedCrop}
+        selectedAgriYear={agriYear}
+        onAgriYearChange={setAgriYear}
+        showAgriYear={true}
+        showCropFilter={true}
+      />
 
       {/* Empty state */}
       {!isLoading && !status && procurements.length === 0 && (

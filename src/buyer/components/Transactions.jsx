@@ -4,12 +4,17 @@ import { useSelector } from "react-redux";
 import { API_URL } from "../../utils/constants";
 
 import NorthEastIcon from "@mui/icons-material/NorthEast";
+import BuyerFilters from "./BuyerFilters";
 
 const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
+  const [originalTransactions, setOriginalTransactions] = useState([]);
   const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [refetchIndex, setRefetchIndex] = useState(0);
+
+  const [searchText, setSearchText] = useState("");
+
   const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -30,6 +35,7 @@ const Transactions = () => {
 
         const json = await response.json();
         setTransactions(json?.data || []);
+        setOriginalTransactions(json?.data || []);
       } catch (error) {
         setStatus({
           type: "error",
@@ -41,6 +47,21 @@ const Transactions = () => {
     })();
   }, [buyer_id, refetchIndex]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const filteredPaymentDues = originalTransactions.filter((r) =>
+        searchText.trim()
+          ? r.farmer_name
+              .toLowerCase()
+              .includes(searchText.trim().toLowerCase())
+          : true,
+      );
+
+      setTransactions(filteredPaymentDues);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchText, originalTransactions]);
   return (
     <section className="max-w-md mx-auto min-h-screen">
       {/* Title */}
@@ -71,6 +92,8 @@ const Transactions = () => {
           </button>
         </div>
       )}
+
+      <BuyerFilters searchText={searchText} setSearchText={setSearchText} />
 
       {/* Empty state */}
       {!isLoading && !status && transactions.length === 0 && (

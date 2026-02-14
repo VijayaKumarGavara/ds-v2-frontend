@@ -3,13 +3,21 @@ import { useSelector } from "react-redux";
 
 import { API_URL } from "../../utils/constants";
 import RequestCard from "./RequestCard";
+import BuyerFilters from "./BuyerFilters";
 
 const ProcurementRequests = () => {
   const [procurementRequests, setProcurementRequests] = useState([]);
+  const [originalProcurementRequests, setOriginalProcurementRequests] =
+    useState([]);
   const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [refetchIndex, setRefetchIndex] = useState(0);
   const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
+
+  // Filters:
+  const [selectedCrop, setSelectedCrop] = useState("all");
+  const [searchText, setSearchText] = useState("");
+
   useEffect(() => {
     async function fetchProcurementRequests() {
       try {
@@ -28,7 +36,8 @@ const ProcurementRequests = () => {
           throw new Error("Error while fetching the procurement requests");
         }
         const jsonResponse = await response.json();
-        setProcurementRequests(jsonResponse?.data);
+        setOriginalProcurementRequests(jsonResponse?.data || []);
+        setProcurementRequests(jsonResponse?.data || []);
       } catch (error) {
         setStatus({
           type: "error",
@@ -40,6 +49,27 @@ const ProcurementRequests = () => {
     }
     fetchProcurementRequests();
   }, [buyer_id, refetchIndex]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const filteredRequests = originalProcurementRequests
+        .filter((r) =>
+          selectedCrop === "all" ? true : r.crop_id === selectedCrop,
+        )
+        .filter((r) =>
+          searchText.trim()
+            ? r.farmer_name
+                .toLowerCase()
+                .includes(searchText.trim().toLowerCase())
+            : true,
+        );
+
+      setProcurementRequests(filteredRequests);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [selectedCrop, searchText, originalProcurementRequests]);
+
   return (
     <>
       <section className="max-w-md mx-auto px-4 min-h-screen">
@@ -71,12 +101,22 @@ const ProcurementRequests = () => {
           </div>
         )}
 
+        <BuyerFilters
+          searchText={searchText}
+          setSearchText={setSearchText}
+          selectedCrop={selectedCrop}
+          onCropChange={setSelectedCrop}
+          showCropFilter={true}
+        />
+        
         {/* Empty state */}
         {!isLoading && !status && procurementRequests.length === 0 && (
           <div className="text-sm text-light-text2 dark:text-dark-text2">
             No pending procurement requests.
           </div>
         )}
+
+        
 
         <ul className="divide-y divide-light-border dark:divide-dark-border">
           {procurementRequests.map((request) => (

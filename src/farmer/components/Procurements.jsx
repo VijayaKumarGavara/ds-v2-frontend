@@ -15,6 +15,7 @@ const Procurements = () => {
   // Filters:
   const [selectedCrop, setSelectedCrop] = useState("all");
   const [agriYear, setAgriYear] = useState(getCurrentAgriYear());
+  
   useEffect(() => {
     if (!farmer_id) return;
     setStatus(null);

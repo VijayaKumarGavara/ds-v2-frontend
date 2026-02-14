@@ -181,8 +181,9 @@ const RecentFarmers = () => {
                 {farmer.farmer_name}
               </div>
               <div className="flex items-center justify-between">
-                <div className="text-sm text-light-text2 dark:text-dark-text2">
-                  {farmer.farmer_village}
+                <div className="flex gap-4 text-sm text-light-text2 dark:text-dark-text2">
+                  <span>{farmer.farmer_village}</span>
+                  <span>{farmer.farmer_mobile}</span>
                 </div>
 
                 {farmer.lastPurchaseAt && (
