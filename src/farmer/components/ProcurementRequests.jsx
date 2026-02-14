@@ -10,6 +10,7 @@ const ProcurementRequests = () => {
 
   const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [refetchIndex, setRefetchIndex] = useState(0);
 
   const farmer_id = useSelector((store) => store.user?.farmer?.farmer_id);
 
@@ -49,13 +50,13 @@ const ProcurementRequests = () => {
           type: "error",
           message: error.message || "Something went wrong.",
         });
-      }finally{
+      } finally {
         setIsLoading(false);
       }
     };
 
     fetchRequests();
-  }, [farmer_id]);
+  }, [farmer_id, refetchIndex]);
 
   useEffect(() => {
     const filteredRequests =
@@ -90,22 +91,20 @@ const ProcurementRequests = () => {
       )}
 
       {/* Status Message */}
-      {status && (
-        <div
-          className={`
-            mb-4 rounded-md px-3 py-2 text-sm font-body
-            ${
-              status.type === "success"
-                ? "bg-green-500/10 text-green-600 border border-green-500/20"
-                : "bg-red-500/10 text-red-600 border border-red-500/20"
-            }
-          `}>
-          {status.message}
+      {status?.type === "error" && (
+        <div className="mb-4 flex items-center justify-between gap-3 rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-600">
+          <span>{status.message}</span>
+          <button
+            type="button"
+            onClick={() => setRefetchIndex((prev) => prev + 1)}
+            className="text-xs font-medium underline hover:opacity-80">
+            Retry
+          </button>
         </div>
       )}
 
       {/* Empty state */}
-      {!isLoading && procurementRequests.length === 0 && (
+      {!isLoading && !status &&  procurementRequests.length === 0 && (
         <div className="text-light-text2 dark:text-dark-text2 font-body">
           No procurement requests available.
         </div>

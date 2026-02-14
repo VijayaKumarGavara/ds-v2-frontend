@@ -10,6 +10,7 @@ const Procurements = () => {
   const [agriYearTotal, setAgriYearTotal] = useState(0);
   const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [refetchIndex, setRefetchIndex] = useState(0);
 
   // Filters:
   const [selectedCrop, setSelectedCrop] = useState("all");
@@ -92,7 +93,7 @@ const Procurements = () => {
         setIsLoading(false);
       }
     })();
-  }, [farmer_id, agriYear]);
+  }, [farmer_id, agriYear, refetchIndex]);
 
   return (
     <>
@@ -123,17 +124,15 @@ const Procurements = () => {
         )}
 
         {/* Status Message */}
-        {status && (
-          <div
-            className={`
-            mb-4 rounded-md px-3 py-2 text-sm font-body
-            ${
-              status.type === "success"
-                ? "bg-green-500/10 text-green-600 border border-green-500/20"
-                : "bg-red-500/10 text-red-600 border border-red-500/20"
-            }
-          `}>
-            {status.message}
+        {status?.type === "error" && (
+          <div className="mb-4 flex items-center justify-between gap-3 rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-600">
+            <span>{status.message}</span>
+            <button
+              type="button"
+              onClick={() => setRefetchIndex((prev) => prev + 1)}
+              className="text-xs font-medium underline hover:opacity-80">
+              Retry
+            </button>
           </div>
         )}
 
@@ -148,12 +147,12 @@ const Procurements = () => {
           <div className="space-y-4">
             {/* Agri-Year Summary */}
             {status?.type !== "error" && (
-              <div className="mb-6 rounded-xl bg-light-bg dark:bg-dark-bg p-4 border border-light-border dark:border-dark-border">
+              <div className="flex items-center justify-between mb-6 rounded-xl bg-light-bg dark:bg-dark-bg p-4 border border-light-border dark:border-dark-border">
                 <div className="font-heading font-semibold text-light-text dark:text-dark-text">
                   Agri-Year: {agriYear}
                 </div>
-                <div className="text-brand-500 font-medium mt-1">
-                  Total Sold: ₹{agriYearTotal}
+                <div className="text-brand-500 font-heading font-semibold ">
+                  Total Sold: ₹{agriYearTotal.toLocaleString()}
                 </div>
               </div>
             )}
@@ -172,7 +171,7 @@ const Procurements = () => {
                     Total Qty: {cropData.grandTotalQty} {cropData.crop_units}
                   </div>
                   <div className="text-sm text-brand-500">
-                    Total Amount: ₹{cropData.grandTotalAmount}
+                    Total Amount: ₹{cropData.grandTotalAmount.toLocaleString()}
                   </div>
                 </div>
 
@@ -206,14 +205,14 @@ const Procurements = () => {
                             <span>
                               {entry.quantity} {cropData.crop_units}
                             </span>
-                            <span>₹{entry.total_amount}</span>
+                            <span>₹{entry.total_amount.toLocaleString()}</span>
                           </div>
                         );
                       })}
 
                       <div className="mt-2 text-sm font-medium text-brand-500">
                         Buyer Total: {buyerData.totalQty} {cropData.crop_units}{" "}
-                        | ₹{buyerData.totalAmount}
+                        | ₹{buyerData.totalAmount.toLocaleString()}
                       </div>
                     </div>
                   ),

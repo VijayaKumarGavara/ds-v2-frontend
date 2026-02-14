@@ -10,18 +10,16 @@ const Transactions = () => {
   const farmer_id = useSelector((store) => store.user?.farmer?.farmer_id);
   const token = localStorage.getItem("token");
   useEffect(() => {
+    if (!farmer_id) return;
     (async () => {
       try {
-        const response = await fetch(
-          `${API_URL}/api/farmer/transactions?farmer_id=${farmer_id}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
+        const response = await fetch(`${API_URL}/api/farmer/transactions`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
-        );
+        });
         if (!response.ok) {
           throw new Error("Error while fetching the transactions.");
         }
@@ -36,7 +34,7 @@ const Transactions = () => {
         setIsLoading(false);
       }
     })();
-  }, [refetchIndex]);
+  }, [farmer_id, refetchIndex]);
   return (
     <section className="max-w-md mx-auto py-6">
       {/* Section title */}
@@ -55,24 +53,14 @@ const Transactions = () => {
       )}
 
       {/* Status Message */}
-      {status&& !transactions && (
-        <div className="flex ">
-          <div
-            className={`
-            mb-4 rounded-md px-3 py-2 text-sm font-body
-            ${
-              status.type === "success"
-                ? "bg-green-500/10 text-green-600 border border-green-500/20"
-                : "bg-red-500/10 text-red-600 border border-red-500/20"
-            }
-          `}>
-            {status.message}
-          </div>
+      {status?.type === "error" && (
+        <div className="mb-4 flex items-center justify-between gap-3 rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-600">
+          <span>{status.message}</span>
           <button
-          className="border px-2 py-1 rounded-md"
             type="button"
-            onClick={() => setRefetchIndex((prev) => prev + 1)}>
-            Refresh Now
+            onClick={() => setRefetchIndex((prev) => prev + 1)}
+            className="text-xs font-medium underline hover:opacity-80">
+            Retry
           </button>
         </div>
       )}
@@ -80,7 +68,7 @@ const Transactions = () => {
       {/* Empty state */}
       {!isLoading && status?.type != "error" && transactions.length === 0 && (
         <div className="text-light-text2 dark:text-dark-text2 font-body">
-          No payment dues available.
+          No transactions available.
         </div>
       )}
 
@@ -116,7 +104,7 @@ const Transactions = () => {
                   px-3 py-1 rounded-full
                   bg-brand-500/10 text-brand-500
                 ">
-                ₹{t.amount}
+                ₹{t.amount.toLocaleString()}
               </span>
             </div>
           );

@@ -7,23 +7,21 @@ const PaymentDues = () => {
   const [paymentDues, setPaymentDues] = useState([]);
   const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [refetchIndex, setRefetchIndex] = useState(0);
   const farmer_id = useSelector((store) => store.user?.farmer?.farmer_id);
   const token = localStorage.getItem("token");
   useEffect(() => {
+    if (!farmer_id) return;
     (async () => {
       try {
-        const response = await fetch(
-          `${API_URL}/api/farmer/payment-dues?farmer_id=${farmer_id}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
+        const response = await fetch(`${API_URL}/api/farmer/payment-dues`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
-        );
-        if (response.ok) {
+        });
+        if (!response.ok) {
           throw new Error("Error while fetching the payment dues.");
         }
         const jsonResponse = await response.json();
@@ -37,7 +35,7 @@ const PaymentDues = () => {
         setIsLoading(false);
       }
     })();
-  }, [farmer_id]);
+  }, [farmer_id, refetchIndex]);
   return (
     <>
       <section className="max-w-md mx-auto py-6">
@@ -58,22 +56,20 @@ const PaymentDues = () => {
         )}
 
         {/* Status Message */}
-        {status && (
-          <div
-            className={`
-            mb-4 rounded-md px-3 py-2 text-sm font-body
-            ${
-              status.type === "success"
-                ? "bg-green-500/10 text-green-600 border border-green-500/20"
-                : "bg-red-500/10 text-red-600 border border-red-500/20"
-            }
-          `}>
-            {status.message}
+        {status?.type === "error" && (
+          <div className="mb-4 flex items-center justify-between gap-3 rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-600">
+            <span>{status.message}</span>
+            <button
+              type="button"
+              onClick={() => setRefetchIndex((prev) => prev + 1)}
+              className="text-xs font-medium underline hover:opacity-80">
+              Retry
+            </button>
           </div>
         )}
 
         {/* Empty state */}
-        {!isLoading && status?.type!="error" && paymentDues.length === 0 && (
+        {!isLoading && status?.type != "error" && paymentDues.length === 0 && (
           <div className="text-light-text2 dark:text-dark-text2 font-body">
             No payment dues available.
           </div>
@@ -105,7 +101,7 @@ const PaymentDues = () => {
                     px-3 py-1 rounded-full
                     bg-brand-500/10 text-brand-500
                   ">
-                    Paid: ₹{p.total_paid_amount}
+                    Paid: ₹{p.total_paid_amount.toLocaleString()}
                   </span>
 
                   <span
@@ -114,7 +110,7 @@ const PaymentDues = () => {
                     px-3 py-1 rounded-full
                     bg-accent/10 text-accent
                   ">
-                    Balance: ₹{p.balance_amount}
+                    Balance: ₹{p.balance_amount.toLocaleString()}
                   </span>
                 </div>
               </div>

@@ -7,21 +7,22 @@ import NorthEastIcon from "@mui/icons-material/NorthEast";
 
 const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
+  const [status, setStatus] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [refetchIndex, setRefetchIndex] = useState(0);
   const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
   const token = localStorage.getItem("token");
   useEffect(() => {
+    if (!buyer_id) return;
     (async () => {
       try {
-        const response = await fetch(
-          `${API_URL}/api/buyer/transactions?buyer_id=${buyer_id}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
+        const response = await fetch(`${API_URL}/api/buyer/transactions`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
-        );
+        });
 
         if (!response.ok) {
           throw new Error("Error while fetching your transactions");
@@ -30,10 +31,15 @@ const Transactions = () => {
         const json = await response.json();
         setTransactions(json?.data || []);
       } catch (error) {
-        console.log(error.message);
+        setStatus({
+          type: "error",
+          message: error.message || "Something went wrong.",
+        });
+      } finally {
+        setIsLoading(false);
       }
     })();
-  }, []);
+  }, [buyer_id, refetchIndex]);
 
   return (
     <section className="max-w-md mx-auto min-h-screen">
@@ -42,8 +48,32 @@ const Transactions = () => {
         Transactions
       </h2>
 
-      {/* Empty State */}
-      {transactions.length === 0 && (
+      {/* Loading Message */}
+      {isLoading && (
+        <div
+          className={`
+            mb-4 rounded-md px-3 py-2 text-sm font-body
+            text-light-text dark:text-dark-text
+          `}>
+          Loading...
+        </div>
+      )}
+
+      {/* Status Message */}
+      {status?.type === "error" && (
+        <div className="mb-4 flex items-center justify-between gap-3 rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-600">
+          <span>{status.message}</span>
+          <button
+            type="button"
+            onClick={() => setRefetchIndex((prev) => prev + 1)}
+            className="text-xs font-medium underline hover:opacity-80">
+            Retry
+          </button>
+        </div>
+      )}
+
+      {/* Empty state */}
+      {!isLoading && !status && transactions.length === 0 && (
         <div className="text-sm font-body text-light-text2 dark:text-dark-text2">
           No transactions found.
         </div>

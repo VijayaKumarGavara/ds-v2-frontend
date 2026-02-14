@@ -10,30 +10,36 @@ const RecentFarmers = () => {
   const [farmers, setFarmers] = useState([]);
   const [originalFarmersList, setOriginalFarmersList] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [status, setStatus] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [refetchIndex, setRefetchIndex] = useState(0);
   const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
   const token = localStorage.getItem("token");
   useEffect(() => {
+    if (!buyer_id) return;
     (async () => {
       try {
-        const res = await fetch(
-          `${API_URL}/api/buyer/recent-farmers?buyer_id=${buyer_id}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
+        const res = await fetch(`${API_URL}/api/buyer/recent-farmers`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
-        );
+        });
         const json = await res.json();
         const list = json?.data || [];
         setOriginalFarmersList(list);
         setFarmers(list);
-      } catch (err) {
-        console.log(err.message);
+      } catch (error) {
+        setStatus({
+          type: "error",
+          message: error.message || "Something went wrong.",
+        });
+      } finally {
+        setIsLoading(false);
       }
     })();
-  }, []);
+  }, [buyer_id, refetchIndex]);
 
   function handleSelectFarmer(farmer) {
     navigate("/buyer/make-procurement", {
@@ -71,7 +77,32 @@ const RecentFarmers = () => {
         Recent Farmers
       </h2>
 
-      {originalFarmersList.length === 0 && (
+      {/* Loading Message */}
+      {isLoading && (
+        <div
+          className={`
+            mb-4 rounded-md px-3 py-2 text-sm font-body
+            text-light-text dark:text-dark-text
+          `}>
+          Loading...
+        </div>
+      )}
+
+      {/* Status Message */}
+      {status?.type === "error" && (
+        <div className="mb-4 flex items-center justify-between gap-3 rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-600">
+          <span>{status.message}</span>
+          <button
+            type="button"
+            onClick={() => setRefetchIndex((prev) => prev + 1)}
+            className="text-xs font-medium underline hover:opacity-80">
+            Retry
+          </button>
+        </div>
+      )}
+
+      {/* Empty state */}
+      {!isLoading && !status && originalFarmersList.length === 0 && (
         <div className="text-sm text-light-text2 dark:text-dark-text2">
           No recent farmers yet.
         </div>
@@ -156,7 +187,8 @@ const RecentFarmers = () => {
 
                 {farmer.lastPurchaseAt && (
                   <div className="text-xs text-light-text2 dark:text-dark-text2 mt-0.5">
-                    Last: {new Date(farmer.lastPurchaseAt).toLocaleDateString(
+                    Last:{" "}
+                    {new Date(farmer.lastPurchaseAt).toLocaleDateString(
                       "en-GB",
                     )}
                   </div>
