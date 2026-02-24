@@ -45,16 +45,17 @@ src/
 
 # Tasks:
 
-    - Forget Password Page, flow and backend logic.
+    - Landing Page with neat, modren, professional & suitable UI.
+    
+    - Forget Password Page, flow and backend logic. <-- Needs admin panel to do it with our current infra.
     
     - For Farmers and Buyers need to add the edit to option update their profiles.
-    - Landing Page with neat, modren, professional & suitable UI.
-
-    - Need to add filter in each page buyer's side.
-    - As well as, In the farmer's side need to change the UI display the buyer's profile pics in requests, procurements, payment-dues, & transactions.
-    - Add Filters( crop, buyer-wise, payment-status, request-status).
+    
 
     # In Buyer's Side:
-        - Need to add the respective filers alogn with the download and share features for the pdf files of the respective pages(can include filters) like a Ledger/Account Statements.
-
+        Insighs Page(Panel, shows the stats, reports & visalisations).
+        - Need to add the respective filters along with the download and share features for the pdf files of the respective pages(can include filters) like a Ledger/Account Statements.
+    # For Farmers:
+        A dashboard, shows the insights, reports, graphs of the procurements, analytics
+    
     - Admin Panel:

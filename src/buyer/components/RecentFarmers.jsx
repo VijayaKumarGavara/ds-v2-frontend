@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 import { API_URL, CLOUDINARY_URL } from "../../utils/constants";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-
 const RecentFarmers = () => {
   const navigate = useNavigate();
   const [farmers, setFarmers] = useState([]);
@@ -197,7 +196,6 @@ const RecentFarmers = () => {
               </div>
             </div>
 
-            {/* Chevron */}
             <ChevronRightIcon className="text-light-text2 dark:text-dark-text2" />
           </li>
         ))}

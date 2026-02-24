@@ -1,9 +1,10 @@
 import { Link } from "react-router";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate, useLocation } from "react-router";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 export default function Navbar({ toggleTheme, theme }) {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef(null);
@@ -19,6 +20,20 @@ export default function Navbar({ toggleTheme, theme }) {
   }, []);
 
   const closeMenu = () => setIsOpen(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleScroll = (id) => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <header
@@ -44,19 +59,22 @@ export default function Navbar({ toggleTheme, theme }) {
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-8 font-body font-medium text-light-text dark:text-dark-text">
           {[
-            { label: "Home", to: "/" },
-            { label: "Our Solutions", to: "#solutions" },
-            { label: "How it Works", to: "#howitworks" },
-            { label: "Contact", to: "#contact" },
-          ].map((item) => (
-            <Link
-              key={item.label}
-              to={item.to}
-              onClick={closeMenu}
-              className="transition hover:text-light-text2 hover:dark:text-dark-text2">
-              {item.label}
-            </Link>
-          ))}
+            { label: "Home", to: "home" },
+            { label: "About", to: "about" },
+            { label: "How it Works", to: "howitworks" },
+            { label: "Features", to: "features" },
+          ].map((item) => {
+            return (
+              <button
+                onClick={() => {
+                  handleScroll(item.to);
+                  closeMenu();
+                }}
+                className="transition hover:text-light-text2 hover:dark:text-dark-text2">
+                {item.label}
+              </button>
+            );
+          })}
         </nav>
 
         {/* Desktop Actions */}
@@ -87,7 +105,7 @@ export default function Navbar({ toggleTheme, theme }) {
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
           aria-expanded={isOpen}>
-          {!isOpen ? <MenuIcon/> : <CloseIcon/>}
+          {!isOpen ? <MenuIcon /> : <CloseIcon />}
         </button>
       </div>
 
@@ -101,19 +119,22 @@ export default function Navbar({ toggleTheme, theme }) {
             text-light-text dark:text-dark-text
           ">
           {[
-            { label: "Home", to: "/" },
-            { label: "Our Solutions", to: "#solutions" },
-            { label: "How it Works", to: "#howitworks" },
-            { label: "Contact", to: "#contact" },
-          ].map((item) => (
-            <Link
-              key={item.label}
-              to={item.to}
-              onClick={closeMenu}
-              className="transition hover:text-light-text2 hover:dark:text-dark-text2">
-              {item.label}
-            </Link>
-          ))}
+            { label: "Home", to: "home" },
+            { label: "About", to: "about" },
+            { label: "How it Works", to: "howitworks" },
+            { label: "Features", to: "features" },
+          ].map((item) => {
+            return (
+              <button
+                onClick={() => {
+                  handleScroll(item.to);
+                  closeMenu();
+                }}
+                className="transition hover:text-light-text2 hover:dark:text-dark-text2 max-w-max">
+                {item.label}
+              </button>
+            );
+          })}
 
           <div className="pt-4 border-t border-light-border dark:border-dark-border space-y-3">
             <Link

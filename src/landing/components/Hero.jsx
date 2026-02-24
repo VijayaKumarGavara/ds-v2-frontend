@@ -4,9 +4,9 @@ import { Link } from "react-router";
 const Hero = () => {
   return (
     <section
+      id="home"
       className="relative min-h-screen bg-cover bg-center"
-      style={{ backgroundImage: `url(${bgImage})` }}
-    >
+      style={{ backgroundImage: `url(${bgImage})` }}>
       {/* Gradient overlay */}
       <div
         className="
@@ -22,29 +22,31 @@ const Hero = () => {
         <div className="mx-auto max-w-6xl px-6 md:px-10">
           <div className="max-w-3xl text-center md:text-left">
             {/* Heading */}
-            <h1 className="
-              font-heading
-              text-4xl md:text-5xl lg:text-6xl
+            <h1
+              className="
+              font-heading text-center mt-6 sm:mt-10
+              text-2xl md:text-3xl lg:text-5xl
               font-bold tracking-tight leading-tight
               text-light-text dark:text-dark-text
             ">
-              Bringing clarity and trust to agricultural procurement.
+              Bringing trust and transprency to agricultural procurement.
             </h1>
 
             {/* Sub text */}
-            <p className="
-              mt-6 font-body text-center font-medium
-              text-lg md:text-xl leading-relaxed
+            <p
+              className="
+              mt-6 px-2 font-body text-center font-medium
+              text-sm md:text-xl leading-relaxed
               text-light-text dark:text-dark-text
             ">
-              Dhanya Sethu helps buyers manage procurements, farmer dues, and
-              payments through a structured and transparent system.
+              Dhanya Sethu helps buyers & farmers, to manage procurements, dues,
+              and payment records through a structured and transparent system.
             </p>
 
             {/* CTA buttons */}
             <div className="mt-10 flex flex-col items-center sm:flex-row gap-4 justify-center ">
               <Link
-                to="/login"
+                to="/register"
                 className="
                   rounded-full max-w-max
                   bg-brand-500 hover:bg-brand-600
@@ -52,9 +54,8 @@ const Hero = () => {
                   text-base font-ui font-medium
                   text-white
                   transition
-                "
-              >
-                Login
+                ">
+                Get Started
               </Link>
 
               <a
@@ -65,9 +66,9 @@ const Hero = () => {
                   px-8 py-3
                   text-base font-ui font-medium
                   text-light-text dark:text-dark-text
+                  bg-light-bg/50 dark:bg-dark-bg/50
                   transition hover:bg-light-card/40 dark:hover:bg-dark-card/40
-                "
-              >
+                ">
                 Our Solutions
               </a>
             </div>
