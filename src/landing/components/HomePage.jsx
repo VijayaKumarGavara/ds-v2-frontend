@@ -12,7 +12,6 @@ const HomePage = () => {
       <About />
       <HowItWorks />
       <Features />
-      <Testmonial />
       <FinalCTA />
       <Footer />
     </>

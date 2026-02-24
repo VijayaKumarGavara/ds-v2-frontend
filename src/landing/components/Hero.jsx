@@ -8,15 +8,22 @@ const Hero = () => {
       className="relative min-h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${bgImage})` }}>
       {/* Gradient overlay */}
-      <div
+      {/* <div
         className="
           absolute inset-0
           bg-gradient-to-b
           from-light-bg/10 via-light-bg/10 to-brand-700/40 blur-sm
           dark:from-dark-bg/80 dark:via-dark-bg/60 dark:to-dark-bg/70
         "
-      />
-
+      /> */}
+      <div
+  className="
+    absolute inset-0
+    bg-gradient-to-b
+    from-light-bg/70 via-light-bg/40 to-transparent
+    dark:from-dark-bg/90 dark:via-dark-bg/70 dark:to-transparent
+  "
+/>
       {/* Content */}
       <div className="relative z-10 flex min-h-screen items-center">
         <div className="mx-auto max-w-6xl px-6 md:px-10">
@@ -66,7 +73,7 @@ const Hero = () => {
                   px-8 py-3
                   text-base font-ui font-medium
                   text-light-text dark:text-dark-text
-                  bg-light-bg/50 dark:bg-dark-bg/50
+                  bg-light-bg/80 dark:bg-dark-bg/50
                   transition hover:bg-light-card/40 dark:hover:bg-dark-card/40
                 ">
                 Our Solutions

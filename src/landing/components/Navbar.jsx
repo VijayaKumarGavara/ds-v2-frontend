@@ -57,7 +57,7 @@ export default function Navbar({ toggleTheme, theme }) {
         </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-8 font-body font-medium text-light-text dark:text-dark-text">
+        <nav className="hidden lg:flex gap-6 font-body font-medium text-light-text dark:text-dark-text">
           {[
             { label: "Home", to: "home" },
             { label: "About", to: "about" },
@@ -70,7 +70,7 @@ export default function Navbar({ toggleTheme, theme }) {
                   handleScroll(item.to);
                   closeMenu();
                 }}
-                className="transition hover:text-light-text2 hover:dark:text-dark-text2">
+                className="transition  text-sm md:text-base hover:text-light-text2 hover:dark:text-dark-text2">
                 {item.label}
               </button>
             );
@@ -78,7 +78,7 @@ export default function Navbar({ toggleTheme, theme }) {
         </nav>
 
         {/* Desktop Actions */}
-        <div className="hidden md:flex gap-4 items-center">
+        <div className="hidden lg:flex gap-4 items-center">
           <Link
             to="/register"
             className="text-base font-medium rounded-full px-4 py-1 text-light-text dark:text-dark-text hover:text-light-text2 hover:dark:text-dark-text2">
@@ -101,7 +101,7 @@ export default function Navbar({ toggleTheme, theme }) {
 
         {/* Hamburger */}
         <button
-          className="md:hidden text-light-text dark:text-dark-text text-xl"
+          className="lg:hidden text-light-text dark:text-dark-text text-xl"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
           aria-expanded={isOpen}>
@@ -113,7 +113,7 @@ export default function Navbar({ toggleTheme, theme }) {
       {isOpen && (
         <div
           className="
-            md:hidden flex flex-col px-6 py-6 space-y-6 font-body
+            lg:hidden flex flex-col px-6 py-6 space-y-6 font-body
             bg-light-card/90 dark:bg-dark-card/90
             backdrop-blur-sm
             text-light-text dark:text-dark-text

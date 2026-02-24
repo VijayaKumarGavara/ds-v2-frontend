@@ -5,7 +5,7 @@ const About = () => {
     <section
       id="about"
       className="
-        scroll-mt-24
+        
         bg-light-bg dark:bg-dark-bg
         py-20 md:py-28
       "
