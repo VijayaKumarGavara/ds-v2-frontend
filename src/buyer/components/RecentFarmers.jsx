@@ -71,7 +71,7 @@ const RecentFarmers = () => {
   }, [searchText, originalFarmersList]);
 
   return (
-    <section className="max-w-md mx-auto px-4 min-h-screen">
+    <section className="max-w-md mx-auto px-4 min-h-screen mb-16">
       <h2 className="mb-4 text-center text-lg font-heading font-semibold text-light-text dark:text-dark-text">
         Recent Farmers
       </h2>
@@ -147,7 +147,7 @@ const RecentFarmers = () => {
       {originalFarmersList.length > 0 && farmers.length === 0 && (
         <div>No farmers match your search.</div>
       )}
-      <ul className="mt-5 divide-y divide-light-border dark:divide-dark-border">
+      <ul className="mt-5 divide-y divide-light-border dark:divide-dark-border mb-16">
         {farmers.map((farmer) => (
           <li
             key={farmer.farmer_id}

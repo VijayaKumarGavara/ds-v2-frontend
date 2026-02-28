@@ -72,7 +72,7 @@ const ProcurementRequests = () => {
 
   return (
     <>
-      <section className="max-w-md mx-auto px-4 min-h-screen">
+      <section className="max-w-md mx-auto px-4 min-h-screen mb-16">
         <h2 className="mb-4 text-center text-lg font-heading font-semibold text-light-text dark:text-dark-text">
           Procurement Requests
         </h2>
@@ -118,7 +118,7 @@ const ProcurementRequests = () => {
 
         
 
-        <ul className="divide-y divide-light-border dark:divide-dark-border">
+        <ul className="divide-y divide-light-border dark:divide-dark-border mb-16">
           {procurementRequests.map((request) => (
             <RequestCard key={request.request_id} request={request} />
           ))}

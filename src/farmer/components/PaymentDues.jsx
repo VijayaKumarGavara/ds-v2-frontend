@@ -76,7 +76,7 @@ const PaymentDues = () => {
         )}
 
         {/* Dues list */}
-        <div className="space-y-4">
+        <div className="space-y-4 mb-16">
           {paymentDues.map((p, index) => {
             return (
               <div

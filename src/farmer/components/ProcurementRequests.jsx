@@ -110,7 +110,7 @@ const ProcurementRequests = () => {
         </div>
       )}
 
-      <div className="space-y-4">
+      <div className="space-y-4 mb-16">
         {procurementRequests.map((r, index) => {
           const date = new Date(r.createdAt).toLocaleDateString("en-GB");
 

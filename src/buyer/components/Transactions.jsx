@@ -63,7 +63,7 @@ const Transactions = () => {
     return () => clearTimeout(timer);
   }, [searchText, originalTransactions]);
   return (
-    <section className="max-w-md mx-auto min-h-screen">
+    <section className="max-w-md mx-auto min-h-screen mb-16">
       {/* Title */}
       <h2 className="mb-4 text-center text-lg font-heading font-semibold text-light-text dark:text-dark-text">
         Transactions
@@ -103,7 +103,7 @@ const Transactions = () => {
       )}
 
       {/* Transaction List */}
-      <ul className="divide-y divide-light-border dark:divide-dark-border">
+      <ul className="divide-y divide-light-border dark:divide-dark-border mb-16">
         {transactions.map((t) => {
           const date = new Date(t.createdAt).toLocaleDateString("en-GB");
 

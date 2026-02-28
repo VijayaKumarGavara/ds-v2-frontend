@@ -73,7 +73,7 @@ const Transactions = () => {
       )}
 
       {/* Transactions list */}
-      <div className="space-y-4">
+      <div className="space-y-4 mb-16">
         {transactions.map((t, index) => {
           const date = new Date(t.createdAt).toLocaleDateString("en-GB");
 

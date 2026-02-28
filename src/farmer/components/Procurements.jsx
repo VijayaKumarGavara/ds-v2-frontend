@@ -15,7 +15,7 @@ const Procurements = () => {
   // Filters:
   const [selectedCrop, setSelectedCrop] = useState("all");
   const [agriYear, setAgriYear] = useState(getCurrentAgriYear());
-  
+
   useEffect(() => {
     if (!farmer_id) return;
     setStatus(null);
@@ -145,7 +145,7 @@ const Procurements = () => {
         )}
 
         {groupedData && (
-          <div className="space-y-4">
+          <div className="space-y-4 min-h-max mb-16">
             {/* Agri-Year Summary */}
             {status?.type !== "error" && (
               <div className="flex items-center justify-between mb-6 rounded-xl bg-light-bg dark:bg-dark-bg p-4 border border-light-border dark:border-dark-border">
@@ -164,15 +164,18 @@ const Procurements = () => {
                 key={cropName}
                 className="mb-6 rounded-2xl bg-light-card dark:bg-dark-card border border-light-border dark:border-dark-border p-4 space-y-4">
                 {/* Crop Header */}
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col">
                   <div className="font-heading font-semibold text-lg text-light-text dark:text-dark-text">
                     {cropName}
                   </div>
-                  <div className="text-sm text-light-text2 dark:text-dark-text2 mt-1">
-                    Total Qty: {cropData.grandTotalQty} {cropData.crop_units}
-                  </div>
-                  <div className="text-sm text-brand-500">
-                    Total Amount: ₹{cropData.grandTotalAmount.toLocaleString()}
+                  <div className="flex justify-between items-center">
+                    <div className="text-sm text-light-text2 dark:text-dark-text2 mt-1">
+                      Total Qty: {cropData.grandTotalQty} {cropData.crop_units}
+                    </div>
+                    <div className="text-sm text-brand-500">
+                      Total Amount: ₹
+                      {cropData.grandTotalAmount.toLocaleString()}
+                    </div>
                   </div>
                 </div>
 

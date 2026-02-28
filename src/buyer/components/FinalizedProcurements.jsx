@@ -78,7 +78,7 @@ const FinalizedProcurements = () => {
   }, [selectedCrop, searchText, originalProcurements]);
 
   return (
-    <section className="max-w-md mx-auto min-h-screen">
+    <section className="max-w-md mx-auto min-h-screen mb-16">
       {/* Page Title */}
       <h2 className="mb-4 text-center text-lg font-heading font-semibold text-light-text dark:text-dark-text">
         Finalized Procurements
@@ -127,7 +127,7 @@ const FinalizedProcurements = () => {
       )}
 
       {/* Procurement List */}
-      <ul className="divide-y divide-light-border dark:divide-dark-border">
+      <ul className="divide-y divide-light-border dark:divide-dark-border mb-40">
         {procurements.map((p) => {
           const date = p.finalizedAt
             ? new Date(p.finalizedAt).toLocaleDateString()

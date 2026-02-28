@@ -64,7 +64,7 @@ const PaymentDues = () => {
     return () => clearTimeout(timer);
   }, [searchText, originalPaymentDues]);
   return (
-    <section className="max-w-md mx-auto min-h-screen">
+    <section className="max-w-md mx-auto min-h-screen mb-16">
       {/* Title */}
       <h2 className="mb-4 text-center text-lg font-heading font-semibold text-light-text dark:text-dark-text">
         Payment Dues
@@ -104,7 +104,7 @@ const PaymentDues = () => {
       )}
 
       {/* Dues List */}
-      <ul className="divide-y divide-light-border dark:divide-dark-border">
+      <ul className="divide-y divide-light-border dark:divide-dark-border mb-16">
         {paymentDues.map((p) => {
           const hasDue = Number(p.balance_amount) > 0;
 
