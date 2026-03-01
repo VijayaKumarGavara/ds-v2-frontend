@@ -35,7 +35,7 @@ const FarmerFilters = ({
   return (
     <div className="w-full mb-4 flex flex-col gap-3">
       {/* Crop + Agri-Year Row */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="flex flex-row gap-3">
         {/* Crop Dropdown */}
         <select
           value={selectedCrop}

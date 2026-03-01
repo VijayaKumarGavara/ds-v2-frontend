@@ -6,6 +6,7 @@ import FarmerFilters from "./FarmerFilters";
 import getCurrentAgriYear from "../../utils/getCurrentAgriYear";
 const Procurements = () => {
   const farmer_id = useSelector((store) => store.user?.farmer?.farmer_id);
+  const [procurements, setProcurements] = useState([]);
   const [groupedData, setGroupedData] = useState([]);
   const [agriYearTotal, setAgriYearTotal] = useState(0);
   const [status, setStatus] = useState(null);
@@ -41,50 +42,7 @@ const Procurements = () => {
         }
         const jsonResponse = await response.json();
 
-        const procurements = jsonResponse?.data || [];
-        const filteredData =
-          selectedCrop === "all"
-            ? procurements
-            : procurements.filter((p) => p.crop_id === selectedCrop);
-
-        const gd = filteredData.reduce((acc, item) => {
-          const { crop_name, crop_units, buyer_name, quantity, total_amount } =
-            item;
-
-          if (!acc[crop_name]) {
-            acc[crop_name] = {
-              crop_units,
-              grandTotalQty: 0,
-              grandTotalAmount: 0,
-              buyers: {},
-            };
-          }
-
-          acc[crop_name].grandTotalQty += quantity;
-          acc[crop_name].grandTotalAmount += total_amount;
-
-          if (!acc[crop_name].buyers[buyer_name]) {
-            acc[crop_name].buyers[buyer_name] = {
-              totalQty: 0,
-              totalAmount: 0,
-              entries: [],
-            };
-          }
-
-          acc[crop_name].buyers[buyer_name].totalQty += quantity;
-          acc[crop_name].buyers[buyer_name].totalAmount += total_amount;
-          acc[crop_name].buyers[buyer_name].entries.push(item);
-
-          return acc;
-        }, {});
-
-        setGroupedData(gd);
-
-        const aYT = filteredData.reduce(
-          (sum, item) => sum + item.total_amount,
-          0,
-        );
-        setAgriYearTotal(aYT);
+        setProcurements(jsonResponse?.data || []);
       } catch (error) {
         setStatus({
           type: "error",
@@ -94,8 +52,49 @@ const Procurements = () => {
         setIsLoading(false);
       }
     })();
-  }, [farmer_id, agriYear, refetchIndex]);
+  }, [farmer_id, selectedCrop, agriYear, refetchIndex]);
 
+  useEffect(() => {
+    const filteredData =
+      selectedCrop === "all"
+        ? procurements
+        : procurements.filter((p) => p.crop_id === selectedCrop);
+
+    const gd = filteredData.reduce((acc, item) => {
+      const { crop_name, crop_units, buyer_name, quantity, total_amount } =
+        item;
+
+      if (!acc[crop_name]) {
+        acc[crop_name] = {
+          crop_units,
+          grandTotalQty: 0,
+          grandTotalAmount: 0,
+          buyers: {},
+        };
+      }
+
+      acc[crop_name].grandTotalQty += quantity;
+      acc[crop_name].grandTotalAmount += total_amount;
+
+      if (!acc[crop_name].buyers[buyer_name]) {
+        acc[crop_name].buyers[buyer_name] = {
+          totalQty: 0,
+          totalAmount: 0,
+          entries: [],
+        };
+      }
+
+      acc[crop_name].buyers[buyer_name].totalQty += quantity;
+      acc[crop_name].buyers[buyer_name].totalAmount += total_amount;
+      acc[crop_name].buyers[buyer_name].entries.push(item);
+
+      return acc;
+    }, {});
+    setGroupedData(gd);
+
+    const aYT = filteredData.reduce((sum, item) => sum + item.total_amount, 0);
+    setAgriYearTotal(aYT);
+  }, [selectedCrop, procurements]);
   return (
     <>
       <section className="max-w-md mx-auto py-6">
@@ -137,12 +136,7 @@ const Procurements = () => {
           </div>
         )}
 
-        {/* Empty state */}
-        {!isLoading && !groupedData && (
-          <div className="text-light-text2 dark:text-dark-text2 font-body">
-            No finalized procurements available.
-          </div>
-        )}
+        
 
         {groupedData && (
           <div className="space-y-4 min-h-max mb-16">
@@ -223,6 +217,13 @@ const Procurements = () => {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Empty state */}
+        {!isLoading && Object.values(groupedData).length==0 && (
+          <div className="text-light-text2 dark:text-dark-text2 font-body">
+            No finalized procurements available {selectedCrop!=='all'?"for this crop":''}.
           </div>
         )}
       </section>

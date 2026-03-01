@@ -44,9 +44,10 @@ const Footer = () => {
               { label: "About", to: "about" },
               { label: "How it Works", to: "howitworks" },
               { label: "Features", to: "features" },
-            ].map((item) => {
+            ].map((item, index) => {
               return (
                 <button
+                  key={index}
                   onClick={() => {
                     handleScroll(item.to);
                   }}

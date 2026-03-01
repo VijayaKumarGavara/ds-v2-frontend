@@ -63,9 +63,10 @@ export default function Navbar({ toggleTheme, theme }) {
             { label: "About", to: "about" },
             { label: "How it Works", to: "howitworks" },
             { label: "Features", to: "features" },
-          ].map((item) => {
+          ].map((item, index) => {
             return (
               <button
+                key={index}
                 onClick={() => {
                   handleScroll(item.to);
                   closeMenu();
@@ -123,9 +124,10 @@ export default function Navbar({ toggleTheme, theme }) {
             { label: "About", to: "about" },
             { label: "How it Works", to: "howitworks" },
             { label: "Features", to: "features" },
-          ].map((item) => {
+          ].map((item, index) => {
             return (
               <button
+                key={index}
                 onClick={() => {
                   handleScroll(item.to);
                   closeMenu();
