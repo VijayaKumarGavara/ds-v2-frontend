@@ -45,7 +45,6 @@ src/
 
 # Tasks:
 
-    - Landing Page with neat, modren, professional & suitable UI.
     
     - Forget Password Page, flow and backend logic. <-- Needs admin panel to do it with our current infra.
     
@@ -56,6 +55,9 @@ src/
         Insighs Page(Panel, shows the stats, reports & visalisations).
         - Need to add the respective filters along with the download and share features for the pdf files of the respective pages(can include filters) like a Ledger/Account Statements.
     # For Farmers:
-        A dashboard, shows the insights, reports, graphs of the procurements, analytics
+        A dashboard, shows the insights, reports, graphs of the procurements, analytics.
     
     - Admin Panel:
+        1. All about the permissions, approvals for the users to update their credientials, make the buyer account status as activate or diactivate based on their subscription.
+
+        2. Analytics, such as buyers, each buyer's bussiness whcih is recorded with our app... such kind of things but not all the complete draft of their  business secrets and confidential info...
