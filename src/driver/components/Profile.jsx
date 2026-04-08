@@ -2,12 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 
-import { setLoggedInBuyer, setLoggedInUserRole } from "../../store/userSlice";
-import {
-  API_URL,
-  BUYER_CLOUDINARY_URL,
-  CLOUDINARY_URL,
-} from "../../utils/constants";
+import { setLoggedInDriver, setLoggedInUserRole } from "../../store/userSlice";
+import { API_URL, DRIVER_CLOUDINARY_URL } from "../../utils/constants";
+
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -16,7 +13,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { toggleTheme, theme } = useOutletContext();
-  const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
+  const driver_id = useSelector((store) => store.user?.driver?.driver_id);
 
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,7 +23,7 @@ const Profile = () => {
     (async () => {
       try {
         const res = await fetch(
-          `${API_URL}/api/buyer/profile?buyer_id=${buyer_id}`,
+          `${API_URL}/api/driver/profile?driver_id=${driver_id}`,
           {
             method: "GET",
             headers: {
@@ -49,7 +46,7 @@ const Profile = () => {
     if (window.history.length > 1) {
       navigate(-1);
     } else {
-      navigate("/buyer");
+      navigate("/farmer");
     }
   };
 
@@ -57,7 +54,7 @@ const Profile = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     dispatch(setLoggedInUserRole(null));
-    dispatch(setLoggedInBuyer(null));
+    dispatch(setLoggedInDriver(null));
     navigate("/", { replace: true });
   };
 
@@ -78,7 +75,7 @@ const Profile = () => {
   }
 
   return (
-    <section className="max-w-md mx-auto min-h-[calc(100vh-80px)]">
+    <section className="max-w-md mx-auto ">
       {/* Header */}
       <div className="mb-2">
         <h1 className="text-lg text-center font-heading font-bold text-light-text dark:text-dark-text">
@@ -88,7 +85,7 @@ const Profile = () => {
 
       {/* Card */}
       <div
-        className=" 
+        className="
           rounded-2xl
           bg-light-card dark:bg-dark-card
           border border-light-border dark:border-dark-border
@@ -97,22 +94,22 @@ const Profile = () => {
         ">
         {/* Profile Image */}
         <div className="w-24 h-24 rounded-full bg-light-bg dark:bg-dark-bg flex items-center justify-center overflow-hidden">
-          {profile.buyer_image_path ? (
+          {profile.driver_image_path ? (
             <img
-              src={`${BUYER_CLOUDINARY_URL}${profile.buyer_image_path}`}
+              src={`${DRIVER_CLOUDINARY_URL}${profile.driver_image_path}`}
               alt="Profile"
               className="w-full h-full object-cover"
             />
           ) : (
             <span className="text-3xl font-heading font-bold text-brand-500">
-              {profile.buyer_name?.[0]}
+              {profile.driver_name?.[0]}
             </span>
           )}
         </div>
 
         {/* Name */}
         <h2 className="text-xl font-heading font-bold text-light-text dark:text-dark-text">
-          {profile.buyer_name}
+          {profile.driver_name}
         </h2>
 
         {/* Details */}
@@ -120,14 +117,14 @@ const Profile = () => {
           <div className="text-sm font-body text-light-text2 dark:text-dark-text2">
             Village:{" "}
             <span className="font-ui text-light-text dark:text-dark-text">
-              {profile.buyer_village}
+              {profile.driver_village}
             </span>
           </div>
 
           <div className="text-sm font-body text-light-text2 dark:text-dark-text2">
             Mobile:{" "}
             <span className="font-ui text-light-text dark:text-dark-text">
-              {profile.buyer_mobile}
+              {profile.driver_mobile}
             </span>
           </div>
         </div>

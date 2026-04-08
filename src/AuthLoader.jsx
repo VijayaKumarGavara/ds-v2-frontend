@@ -7,6 +7,7 @@ import {
   setLoggedInUserRole,
   setLoggedInBuyer,
   setLoggedInFarmer,
+  setLoggedInDriver
 } from "./store/userSlice";
 const AuthLoader = () => {
   const navigate = useNavigate();
@@ -32,8 +33,10 @@ const AuthLoader = () => {
         dispatch(setLoggedInUserRole(data?.data?.role));
         if (data?.data?.role === "buyer") {
           dispatch(setLoggedInBuyer(data?.data?.user));
-        } else {
+        } else if(data?.data?.role === "farmer") {
           dispatch(setLoggedInFarmer(data?.data?.user));
+        }else{
+          dispatch(setLoggedInDriver(data?.data?.user));
         }
         // navigate(`/${data.data.role}`, { replace: true });
       })

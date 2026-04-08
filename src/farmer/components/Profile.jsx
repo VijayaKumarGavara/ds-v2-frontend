@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
+import { setLoggedInFarmer, setLoggedInUserRole } from "../../store/userSlice";
 import { API_URL, CLOUDINARY_URL } from "../../utils/constants";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -10,6 +11,7 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const dispatch=useDispatch();
   const { toggleTheme, theme } = useOutletContext();
   const farmer_id = useSelector((store) => store.user?.farmer?.farmer_id);
 
@@ -51,6 +53,8 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    dispatch(setLoggedInUserRole(null));
+    dispatch(setLoggedInFarmer(null));
     navigate("/", { replace: true });
   };
 

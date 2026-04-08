@@ -8,6 +8,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import LandingRoutes from "./landing/LandingRoutes";
 import BuyerRoutes from "./buyer/BuyerRoutes";
 import FarmerRoutes from "./farmer/FarmerRoutes";
+import DriverRoutes from "./driver/DriverRoutes";
 import AuthLoader from "./AuthLoader";
 import appStore from "./store/appStore";
 
@@ -67,6 +68,14 @@ function App() {
               element={<FarmerRoutes toggleTheme={toggleTheme} theme={theme} />}
             />
           </Route>
+
+          <Route element={<ProtectedRoute allowedRole="driver" />}>
+            <Route
+              path="/driver/*"
+              element={<DriverRoutes toggleTheme={toggleTheme} theme={theme} />}
+            />
+          </Route>
+
         </Routes>
       </BrowserRouter>
     </Provider>

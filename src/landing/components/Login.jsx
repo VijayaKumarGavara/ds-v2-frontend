@@ -10,11 +10,12 @@ import {
   setLoggedInUserRole,
   setLoggedInBuyer,
   setLoggedInFarmer,
+  setLoggedInDriver,
 } from "../../store/userSlice";
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const [role, setRole] = useState("buyer");
   const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState(null);
@@ -38,10 +39,15 @@ const Login = () => {
     e.preventDefault();
     setStatus(null);
     setLoading(true);
-    const url =
-      role === "buyer"
-        ? `${API_URL}/api/buyer/login`
-        : `${API_URL}/api/farmer/login`;
+
+    let url;
+    if (role === "buyer") {
+      url = `${API_URL}/api/buyer/login`;
+    } else if (role === "farmer") {
+      url = `${API_URL}/api/farmer/login`;
+    } else {
+      url = `${API_URL}/api/driver/login`;
+    }
 
     const payload =
       role === "buyer"
@@ -49,10 +55,15 @@ const Login = () => {
             buyer_mobile: formData.mobile,
             buyer_password: formData.password,
           }
-        : {
-            farmer_mobile: formData.mobile,
-            farmer_password: formData.password,
-          };
+        : role === "famrer"
+          ? {
+              farmer_mobile: formData.mobile,
+              farmer_password: formData.password,
+            }
+          : {
+              driver_mobile: formData.mobile,
+              driver_password: formData.password,
+            };
 
     try {
       const response = await fetch(url, {
@@ -74,10 +85,12 @@ const Login = () => {
       localStorage.setItem("role", data.role);
 
       dispatch(setLoggedInUserRole(data.role));
-      if(data.role==="buyer"){
+      if (data.role === "buyer") {
         dispatch(setLoggedInBuyer(data?.data));
-      }else{
+      } else if (data.role === "farmer") {
         dispatch(setLoggedInFarmer(data?.data));
+      } else {
+        dispatch(setLoggedInDriver(data?.data));
       }
 
       navigate(`/${data.role}`, { replace: true });
@@ -151,6 +164,7 @@ const Login = () => {
       ">
           <option value="buyer">Buyer</option>
           <option value="farmer">Farmer</option>
+          <option value="driver">Tractor Driver</option>
         </select>
 
         <input

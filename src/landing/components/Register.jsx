@@ -10,6 +10,7 @@ import {
   setLoggedInUserRole,
   setLoggedInBuyer,
   setLoggedInFarmer,
+  setLoggedInDriver
 } from "../../store/userSlice";
 
 const Register = () => {
@@ -43,10 +44,14 @@ const Register = () => {
     e.preventDefault();
     setStatus(null);
     setLoading(true);
-    const url =
-      role === "buyer"
-        ? `${API_URL}/api/buyer/register`
-        : `${API_URL}/api/farmer/register`;
+    let url;
+    if (role === "buyer") {
+      url = `${API_URL}/api/buyer/register`;
+    } else if (role === "farmer") {
+      url = `${API_URL}/api/farmer/register`;
+    } else {
+      url = `${API_URL}/api/driver/register`;
+    }
 
     const formDataToSend = new FormData();
 
@@ -55,15 +60,20 @@ const Register = () => {
       formDataToSend.append("buyer_village", formData.village);
       formDataToSend.append("buyer_mobile", formData.mobile);
       formDataToSend.append("buyer_password", formData.password);
-      formDataToSend.append("buyer_photo", formData.photo); // 🔥 MATCH multer
-    } else {
+      formDataToSend.append("buyer_photo", formData.photo); 
+    } else if(role==="farmer") {
       formDataToSend.append("farmer_name", formData.name);
       formDataToSend.append("farmer_village", formData.village);
       formDataToSend.append("farmer_mobile", formData.mobile);
       formDataToSend.append("farmer_password", formData.password);
-      formDataToSend.append("farmer_photo", formData.photo); // 🔥 MATCH multer
+      formDataToSend.append("farmer_photo", formData.photo); 
+    }else{
+      formDataToSend.append("driver_name", formData.name);
+      formDataToSend.append("driver_village", formData.village);
+      formDataToSend.append("driver_mobile", formData.mobile);
+      formDataToSend.append("driver_password", formData.password);
+      formDataToSend.append("driver_photo", formData.photo);
     }
-    
 
     try {
       const response = await fetch(url, {
@@ -86,8 +96,10 @@ const Register = () => {
       dispatch(setLoggedInUserRole(data.role));
       if (data.role === "buyer") {
         dispatch(setLoggedInBuyer(data?.data));
-      } else {
+      } else if(data.role==="farmer") {
         dispatch(setLoggedInFarmer(data?.data));
+      }else{
+        dispatch(setLoggedInDriver(data?.data));
       }
 
       navigate(`/${data.role}`, { replace: true });
@@ -162,6 +174,7 @@ const Register = () => {
       ">
           <option value="buyer">Buyer</option>
           <option value="farmer">Farmer</option>
+          <option value="driver">Tractor Driver</option>
         </select>
 
         <input
