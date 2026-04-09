@@ -1,18 +1,32 @@
 import { Routes, Route } from "react-router";
 import DriverLayout from "./DriverLayout";
-import Hero from "./components/Hero"
+import Hero from "./components/Hero";
 
 import PaymentDues from "./components/PaymentDues";
 import Transactions from "./components/Transactions";
 import Profile from "./components/Profile";
+import RecentFarmers from "./components/RecentFarmers";
+import AddWork from "./components/AddWork";
+import WorkRecords from "./components/WorkRecords";
+import FindFarmers from "./components/FindFarmers";
+import Register from "./components/RegisterFarmer";
 
-const DriverRoutes = ({toggleTheme, theme}) => {
+const DriverRoutes = ({ toggleTheme, theme }) => {
   return (
     <Routes>
-      <Route element={<DriverLayout toggleTheme={toggleTheme} theme={theme}/>}>
+      <Route element={<DriverLayout toggleTheme={toggleTheme} theme={theme} />}>
         {/* default farmer dashboard */}
         <Route index element={<Hero />} />
 
+        <Route path="recent-farmers" element={<RecentFarmers />} />
+
+        <Route path="find-farmers" element={<FindFarmers />} />
+
+        <Route path="add-work" element={<AddWork />} />
+
+        <Route path="register-farmer" element={<Register />} />
+
+        <Route path="work-records" element={<WorkRecords />} />
 
         <Route path="payment-dues" element={<PaymentDues />} />
 

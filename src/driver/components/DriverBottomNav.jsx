@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router";
 import HomeIcon from "@mui/icons-material/Home";
-
+import AgricultureIcon from "@mui/icons-material/Agriculture";
+import InventoryIcon from "@mui/icons-material/Inventory";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import HistoryIcon from "@mui/icons-material/History";
 
@@ -9,7 +10,19 @@ const DriverBottomNav = () => {
 
   const navItems = [
     { label: "Home", to: "/driver", icon: <HomeIcon /> },
-    
+
+    {
+      label: "Add Work",
+      to: "/driver/find-farmers",
+      icon: <AgricultureIcon />,
+    },
+
+    {
+      label: "Records",
+      to: "/driver/work-records",
+      icon: <InventoryIcon />,
+    },
+
     {
       label: "Dues",
       to: "/driver/payment-dues",
@@ -30,8 +43,7 @@ const DriverBottomNav = () => {
         bg-light-card/95 dark:bg-dark-card/95
         backdrop-blur-md
         border-t border-light-border dark:border-dark-border
-      "
-    >
+      ">
       <ul className="flex justify-around items-center py-2">
         {navItems.map((item) => {
           const isActive = location.pathname === item.to;
@@ -48,8 +60,7 @@ const DriverBottomNav = () => {
                       ? "text-brand-500"
                       : "text-light-text2 dark:text-dark-text2"
                   }
-                `}
-              >
+                `}>
                 <span className="text-xl">{item.icon}</span>
                 {item.label}
               </Link>

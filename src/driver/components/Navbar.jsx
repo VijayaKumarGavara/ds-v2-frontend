@@ -6,6 +6,9 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 export default function Navbar() {
   const menuItems = [
     { label: "Home", to: "/driver" },
+    {label:"Recent Farmers", to:"/driver/recent-farmers"},
+    {label:"Add Work", to:"/driver/find-farmers"},
+    {label:"Work Records", to:"/driver/work-records"},
     { label: "Payment Dues", to: "/driver/payment-dues" },
     { label: "History", to: "/driver/transactions" },
   ];
