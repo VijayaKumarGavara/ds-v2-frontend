@@ -6,7 +6,7 @@ import { API_URL } from "../../utils/constants";
 import PaymentsIcon from "@mui/icons-material/Payments";
 
 const MakePayment = () => {
-  const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
+  const driver_id = useSelector((store) => store.user?.driver?.driver_id);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -37,24 +37,27 @@ const MakePayment = () => {
     const paymentInfo = {
       due_id,
       farmer_id,
-      buyer_id,
+      driver_id,
       amount: Number(paymentForm.amount),
       remarks: paymentForm.remarks,
-      payment_mode: paymentForm.payment_mode,
+      payment_mode:paymentForm.payment_mode,
     };
 
     try {
       setIsSubmitting(true);
       setStatus({ type: "", message: "" });
       const token = localStorage.getItem("token");
-      const response = await fetch(`${API_URL}/api/payment/record-payment`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${API_URL}/api/tractor-work-payment/record-payment`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(paymentInfo),
         },
-        body: JSON.stringify(paymentInfo),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Error while making the payment.");
@@ -83,7 +86,7 @@ const MakePayment = () => {
   }
 
   return (
-    <section className="max-w-md min-h-[calc(100vh-80px)] mx-auto pt-6 px-4">
+    <section className="max-w-md min-h-[calc(100vh-80px)] mx-auto pt-6 px-4 mb-20">
       {/* Header */}
       <h2 className="mb-1 text-lg font-heading font-semibold text-light-text dark:text-dark-text">
         Make Payment

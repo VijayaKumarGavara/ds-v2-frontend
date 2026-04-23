@@ -61,3 +61,11 @@ src/
         1. All about the permissions, approvals for the users to update their credientials, make the buyer account status as activate or diactivate based on their subscription.
 
         2. Analytics, such as buyers, each buyer's bussiness whcih is recorded with our app... such kind of things but not all the complete draft of their  business secrets and confidential info...
+
+
+# Feature: Tractor-Track:
+    - Need to add the work-records page where driver and farmers fetch their respective tractor works.
+    - Need to add the payment-dues page where drivers and farmers fetch their respective payment dues for tractor-works, from here driver can redirect to payment page by selecting the farmer then record the payment.
+    - Need to add the payment page where drivers can record the payments.
+    - Need to add the tractions page where drivers & farmers fetch their transactions.
+    - Modify the frontend api requests in such a format of backend expected format for authorization for each request.

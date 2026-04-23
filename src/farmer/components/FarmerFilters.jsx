@@ -2,62 +2,69 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../../utils/constants";
 
 const FarmerFilters = ({
-  selectedCrop,
-  onCropChange,
+  selectedFilter,
+  onFilterChange,
   selectedAgriYear,
   onAgriYearChange,
   showAgriYear = false,
+  type = "crop",
 }) => {
-  const [crops, setCrops] = useState([]);
+  const [options, setOptions] = useState([]);
 
   useEffect(() => {
-    async function getCropDetails() {
+    async function fetchOptions() {
       try {
-        const response = await fetch(`${API_URL}/api/crop/all-crops`, {
-          method: "GET",
-        });
-
-        const json = await response.json();
-        if (!response.ok)
-          throw new Error(
-            json.message || "Something went wrong while fetching crops.",
-          );
-        setCrops(json.data);
-      } catch (error) {
-        console.error(error);
-        alert(error.message);
+        if (type === "crop") {
+          const res = await fetch(`${API_URL}/api/crop/all-crops`);
+          const json = await res.json();
+          setOptions(json.data || []);
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
-    getCropDetails();
-  }, []);
+
+    fetchOptions();
+  }, [type]);
+
   const agriYears = ["2025-2026", "2024-2025", "2023-2024"];
 
   return (
     <div className="w-full mb-4 flex flex-col gap-3">
-      {/* Crop + Agri-Year Row */}
+
       <div className="flex flex-row gap-3">
-        {/* Crop Dropdown */}
+
+        {/* Dynamic Filter */}
         <select
-          value={selectedCrop}
-          onChange={(e) => onCropChange(e.target.value)}
+          value={selectedFilter}
+          onChange={(e) => onFilterChange(e.target.value)}
           className="
             flex-1 rounded-lg px-3 py-2
             bg-light-bg dark:bg-dark-bg
             border border-light-border dark:border-dark-border
-            text-light-text dark:text-dark-text
-            text-sm
-          ">
-          <option value="all">All Crops</option>
-          {crops.map((crop) => {
-            return (
-              <option key={crop.crop_id} value={crop.crop_id}>
-                {crop.crop_name.toUpperCase()}
+            text-light-text dark:text-dark-text text-sm
+          "
+        >
+          <option value="all">
+            {type === "crop" ? "All Crops" : "All Work Types"}
+          </option>
+
+          {type === "crop" &&
+            options.map((opt) => (
+              <option key={opt.crop_id} value={opt.crop_id}>
+                {opt.crop_name.toUpperCase()}
               </option>
-            );
-          })}
+            ))}
+
+          {type === "work" &&
+            options.map((opt) => (
+              <option key={opt.type} value={opt.type}>
+                {opt.label}
+              </option>
+            ))}
         </select>
 
-        {/* Agri-Year Dropdown (Optional) */}
+        {/* Agri Year */}
         {showAgriYear && (
           <select
             value={selectedAgriYear}
@@ -66,9 +73,9 @@ const FarmerFilters = ({
               flex-1 rounded-lg px-3 py-2
               bg-light-bg dark:bg-dark-bg
               border border-light-border dark:border-dark-border
-              text-light-text dark:text-dark-text
-              text-sm
-            ">
+              text-light-text dark:text-dark-text text-sm
+            "
+          >
             {agriYears.map((year) => (
               <option key={year} value={year}>
                 {year}
@@ -76,6 +83,7 @@ const FarmerFilters = ({
             ))}
           </select>
         )}
+
       </div>
     </div>
   );

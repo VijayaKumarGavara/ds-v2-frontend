@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { setLoggedInFarmer, setLoggedInUserRole } from "../../store/userSlice";
 import { API_URL, CLOUDINARY_URL } from "../../utils/constants";
@@ -13,7 +13,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const dispatch=useDispatch();
   const { toggleTheme, theme } = useOutletContext();
-  const farmer_id = useSelector((store) => store.user?.farmer?.farmer_id);
 
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -23,7 +22,7 @@ const Profile = () => {
     (async () => {
       try {
         const res = await fetch(
-          `${API_URL}/api/farmer/profile?farmer_id=${farmer_id}`,
+          `${API_URL}/api/farmer/profile`,
           {
             method: "GET",
             headers: {

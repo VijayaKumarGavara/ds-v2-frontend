@@ -23,7 +23,6 @@ const Procurements = () => {
     (async () => {
       try {
         const params = new URLSearchParams();
-        params.append("farmer_id", farmer_id);
         params.append("agri_year", agriYear);
 
         const token = localStorage.getItem("token");

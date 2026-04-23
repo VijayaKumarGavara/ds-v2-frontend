@@ -3,7 +3,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import InboxIcon from "@mui/icons-material/Inbox";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import HistoryIcon from "@mui/icons-material/History";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const FarmerBottomNav = () => {
   const location = useLocation();
@@ -16,7 +16,7 @@ const FarmerBottomNav = () => {
       icon: <InboxIcon />,
     },
     {
-      label: "Procurements",
+      label: "Sales",
       to: "/farmer/finalized-procurements",
       icon: <InventoryIcon />,
     },
@@ -25,11 +25,7 @@ const FarmerBottomNav = () => {
       to: "/farmer/payment-dues",
       icon: <AccountBalanceWalletIcon />,
     },
-    {
-      label: "History",
-      to: "/farmer/transactions",
-      icon: <HistoryIcon />,
-    },
+    { label: "More", to: "/farmer/more", icon: <MenuIcon /> }, // 🔥 NEW
   ];
 
   return (
@@ -40,8 +36,7 @@ const FarmerBottomNav = () => {
         bg-light-card/95 dark:bg-dark-card/95
         backdrop-blur-md
         border-t border-light-border dark:border-dark-border
-      "
-    >
+      ">
       <ul className="flex justify-around items-center py-2">
         {navItems.map((item) => {
           const isActive = location.pathname === item.to;
@@ -58,8 +53,7 @@ const FarmerBottomNav = () => {
                       ? "text-brand-500"
                       : "text-light-text2 dark:text-dark-text2"
                   }
-                `}
-              >
+                `}>
                 <span className="text-xl">{item.icon}</span>
                 {item.label}
               </Link>

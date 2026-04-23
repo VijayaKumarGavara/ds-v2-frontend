@@ -10,6 +10,7 @@ import AddWork from "./components/AddWork";
 import WorkRecords from "./components/WorkRecords";
 import FindFarmers from "./components/FindFarmers";
 import Register from "./components/RegisterFarmer";
+import MakePayment from "./components/MakePayment";
 
 const DriverRoutes = ({ toggleTheme, theme }) => {
   return (
@@ -29,6 +30,8 @@ const DriverRoutes = ({ toggleTheme, theme }) => {
         <Route path="work-records" element={<WorkRecords />} />
 
         <Route path="payment-dues" element={<PaymentDues />} />
+
+        <Route path="make-payment" element={<MakePayment />} />
 
         <Route path="transactions" element={<Transactions />} />
 

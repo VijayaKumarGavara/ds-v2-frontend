@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router";
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { workOptions } from "../../utils/workOptions";
 import { API_URL } from "../../utils/constants";
 import { useSelector } from "react-redux";
@@ -7,7 +7,16 @@ import { useSelector } from "react-redux";
 const AddWork = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const farmer = state?.farmer;
+
+  const isEdit = state?.isEdit;
+  const existingWork = state?.work;
+
+  const farmer = state?.farmer || {
+    farmer_mobile: existingWork?.farmer_mobile,
+    farmer_name: existingWork?.farmer_name,
+    farmer_village: existingWork?.farmer_village,
+  };
+
   const driver_id = useSelector((store) => store.user?.driver?.driver_id);
   const [selectedWorkId, setSelectedWorkId] = useState("");
   const [units, setUnits] = useState("");
@@ -17,6 +26,24 @@ const AddWork = () => {
   const [status, setStatus] = useState(null);
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (isEdit && existingWork) {
+      setSelectedWorkId(existingWork.work.type);
+      setCostPerUnit(existingWork.cost_per_unit);
+      setNotes(existingWork.notes || "");
+
+      if (existingWork.work.unit === "hour") {
+        const hrs = Math.floor(existingWork.quantity);
+        const mins = Math.round((existingWork.quantity - hrs) * 60);
+
+        setHours(hrs);
+        setMinutes(mins);
+      } else {
+        setUnits(existingWork.quantity);
+      }
+    }
+  }, [isEdit, existingWork]);
 
   const token = localStorage.getItem("token");
 
@@ -38,6 +65,8 @@ const AddWork = () => {
 
   if (!farmer) return null;
 
+ 
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -46,29 +75,18 @@ const AddWork = () => {
       return;
     }
 
-    if (selectedWork.unit === "hour") {
-      if (minutes >= 60) {
-        setStatus({ type: "error", message: "Minutes should be less than 60" });
-        return;
-      }
-
-      if (!hours && !minutes) {
-        setStatus({ type: "error", message: "Enter valid time" });
-        return;
-      }
-    } else {
-      if (!units) {
-        setStatus({ type: "error", message: "Enter units" });
-        return;
-      }
-    }
-
     setSubmitting(true);
     setStatus(null);
 
     try {
-      const res = await fetch(`${API_URL}/api/tractor-work/add-work`, {
-        method: "POST",
+      const url = isEdit
+        ? `${API_URL}/api/tractor-work/update-work?work_id=${existingWork.work_id}`
+        : `${API_URL}/api/tractor-work/add-work`;
+
+      const method = isEdit ? "PATCH" : "POST";
+      
+      const res = await fetch(url, {
+        method,
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -83,7 +101,6 @@ const AddWork = () => {
           },
           quantity: totalUnits,
           cost_per_unit: Number(costPerUnit),
-          total_amount: totalAmount,
           notes,
         }),
       });
@@ -93,17 +110,14 @@ const AddWork = () => {
 
       setStatus({
         type: "success",
-        message: "Work added successfully",
+        message: isEdit
+          ? "Work updated successfully"
+          : "Work added successfully",
       });
 
-      // Reset form
-      setSelectedWorkId("");
-      setUnits("");
-      setCostPerUnit("");
-      setHours("");
-      setMinutes("");
-      setNotes("");
-      setTimeout(() => setStatus(null), 4000);
+      setTimeout(() => {
+        navigate("/driver/work-records");
+      }, 1000);
     } catch (err) {
       setStatus({
         type: "error",
@@ -115,10 +129,10 @@ const AddWork = () => {
   }
 
   return (
-    <section className="max-w-md mx-auto min-h-[calc(100vh-80px)] px-4">
+    <section className="max-w-md mx-auto min-h-screen px-4 pb-52">
       {/* Title */}
       <h2 className="text-center text-lg font-heading font-semibold text-light-text dark:text-dark-text">
-        Add Work
+        {isEdit ? "Edit Work" : "Add Work"}
       </h2>
 
       {/* Farmer Info */}
@@ -217,7 +231,9 @@ const AddWork = () => {
           type="submit"
           disabled={submitting}
           className="w-full rounded-full bg-brand-500 py-2 text-white font-ui">
-          {submitting ? "Adding..." : "Add Work"}
+          {isEdit
+            ? `${submitting ? "Updating" : "Update Work"}`
+            : `${submitting ? "Adding" : "Add Work"}`}
         </button>
       </form>
 

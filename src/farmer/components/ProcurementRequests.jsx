@@ -25,7 +25,6 @@ const ProcurementRequests = () => {
     const fetchRequests = async () => {
       try {
         const params = new URLSearchParams();
-        params.append("farmer_id", farmer_id);
 
         const response = await fetch(
           `${API_URL}/api/farmer/sales?${params.toString()}`,

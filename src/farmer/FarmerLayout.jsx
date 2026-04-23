@@ -8,7 +8,7 @@ const FarmerLayout = ({ toggleTheme, theme }) => {
         <Navbar/>
 
         {/* Content area */}
-        <main className="pt-20 px-4 md:px-8">
+        <main className="pt-20 px-4 md:px-8 mb-20">
           <Outlet context={{ theme, toggleTheme }}/>
         </main>
 

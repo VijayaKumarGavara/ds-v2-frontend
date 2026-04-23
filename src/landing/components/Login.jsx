@@ -49,21 +49,23 @@ const Login = () => {
       url = `${API_URL}/api/driver/login`;
     }
 
-    const payload =
-      role === "buyer"
-        ? {
-            buyer_mobile: formData.mobile,
-            buyer_password: formData.password,
-          }
-        : role === "famrer"
-          ? {
-              farmer_mobile: formData.mobile,
-              farmer_password: formData.password,
-            }
-          : {
-              driver_mobile: formData.mobile,
-              driver_password: formData.password,
-            };
+    let payload;
+    if (role === "buyer") {
+      payload = {
+        buyer_mobile: formData.mobile,
+        buyer_password: formData.password,
+      };
+    } else if (role === "farmer") {
+      payload = {
+        farmer_mobile: formData.mobile,
+        farmer_password: formData.password,
+      };
+    } else {
+      payload = {
+        driver_mobile: formData.mobile,
+        driver_password: formData.password,
+      };
+    }
 
     try {
       const response = await fetch(url, {

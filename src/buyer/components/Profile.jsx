@@ -26,7 +26,7 @@ const Profile = () => {
     (async () => {
       try {
         const res = await fetch(
-          `${API_URL}/api/buyer/profile?buyer_id=${buyer_id}`,
+          `${API_URL}/api/buyer/profile`,
           {
             method: "GET",
             headers: {
@@ -43,7 +43,7 @@ const Profile = () => {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [buyer_id]);
 
   const handleBack = () => {
     if (window.history.length > 1) {
