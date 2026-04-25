@@ -5,6 +5,7 @@ const userSlice = createSlice({
   initialState: {
     farmer: null,
     buyer: null,
+    driver:null,
     role: null,
   },
   reducers: {
@@ -17,9 +18,12 @@ const userSlice = createSlice({
     setLoggedInBuyer: (state, action) => {
       state.buyer = action.payload;
     },
+    setLoggedInDriver:(state, action)=>{
+      state.driver=action.payload;
+    }
   },
 });
 
-export const { setLoggedInUserRole, setLoggedInFarmer, setLoggedInBuyer } =
+export const { setLoggedInUserRole, setLoggedInFarmer, setLoggedInBuyer, setLoggedInDriver } =
   userSlice.actions;
 export default userSlice.reducer;

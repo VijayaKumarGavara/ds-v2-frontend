@@ -6,7 +6,7 @@ import { API_URL } from "../../utils/constants";
 import PaymentsIcon from "@mui/icons-material/Payments";
 
 const MakePayment = () => {
-  const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
+  const driver_id = useSelector((store) => store.user?.driver?.driver_id);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -14,7 +14,8 @@ const MakePayment = () => {
   const [paymentForm, setPaymentForm] = useState({
     amount: "",
     remarks: "",
-    payment_mode: "",
+    payment_mode: "cash",
+    discount:""
   });
 
   const [status, setStatus] = useState({
@@ -37,24 +38,28 @@ const MakePayment = () => {
     const paymentInfo = {
       due_id,
       farmer_id,
-      buyer_id,
+      driver_id,
       amount: Number(paymentForm.amount),
       remarks: paymentForm.remarks,
-      payment_mode: paymentForm.payment_mode,
+      discount:paymentForm.discount,
+      payment_mode:paymentForm.payment_mode,
     };
 
     try {
       setIsSubmitting(true);
       setStatus({ type: "", message: "" });
       const token = localStorage.getItem("token");
-      const response = await fetch(`${API_URL}/api/payment/record-payment`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${API_URL}/api/tractor-work-payment/record-payment`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(paymentInfo),
         },
-        body: JSON.stringify(paymentInfo),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Error while making the payment.");
@@ -67,7 +72,7 @@ const MakePayment = () => {
         message: `Payment of ₹${paymentForm.amount} recorded successfully.`,
       });
 
-      setPaymentForm({ amount: "", remarks: "" });
+      setPaymentForm({ amount: "", remarks: "",payment_mode:"cash", discount:"" });
 
       setTimeout(() => {
         navigate(-1);
@@ -83,7 +88,7 @@ const MakePayment = () => {
   }
 
   return (
-    <section className="max-w-md min-h-[calc(100vh-80px)] mx-auto pt-6 px-4">
+    <section className="max-w-md min-h-[calc(100vh-80px)] mx-auto pt-6 px-4 mb-20">
       {/* Header */}
       <h2 className="mb-1 text-lg font-heading font-semibold text-light-text dark:text-dark-text">
         Make Payment
@@ -167,6 +172,24 @@ const MakePayment = () => {
             "
           />
 
+          <input
+            type="text"
+            placeholder="Enter Discount(optional)"
+            value={paymentForm.discount}
+            onChange={(e) =>
+              setPaymentForm({ ...paymentForm, discount: e.target.value })
+            }
+            disabled={isSubmitting}
+            className="
+              w-full rounded-md
+              px-3 py-2
+              bg-light-bg dark:bg-dark-bg
+              border border-light-border dark:border-dark-border
+              text-light-text dark:text-dark-text
+              placeholder:text-light-text2 dark:placeholder:text-dark-text2
+              font-ui
+            "
+          />
           <select
             value={paymentForm.payment_mode}
             onChange={(e) =>

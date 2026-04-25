@@ -7,7 +7,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const Register = () => {
-  const buyer_id = useSelector((store) => store.user?.buyer?.buyer_id);
+  const driver_id = useSelector((store) => store.user?.driver?.driver_id);
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -47,8 +47,8 @@ const Register = () => {
     formDataToSend.append("farmer_mobile", formData.mobile);
     formDataToSend.append("farmer_password", formData.password);
     formDataToSend.append("farmer_photo", formData.photo);
-    formDataToSend.append("registered_by", "buyer");
-    formDataToSend.append("registered_by_buyer_id", buyer_id);
+    formDataToSend.append("registered_by", "driver");
+    formDataToSend.append("registered_by_driver_id", driver_id);
     try {
       const response = await fetch(url, {
         method: "POST",

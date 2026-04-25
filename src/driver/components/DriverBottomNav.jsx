@@ -1,31 +1,38 @@
 import { Link, useLocation } from "react-router";
 import HomeIcon from "@mui/icons-material/Home";
-import InboxIcon from "@mui/icons-material/Inbox";
+import AgricultureIcon from "@mui/icons-material/Agriculture";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import MenuIcon from "@mui/icons-material/Menu";
+import HistoryIcon from "@mui/icons-material/History";
 
-const FarmerBottomNav = () => {
+const DriverBottomNav = () => {
   const location = useLocation();
 
   const navItems = [
-    { label: "Home", to: "/farmer", icon: <HomeIcon /> },
+    { label: "Home", to: "/driver", icon: <HomeIcon /> },
+
     {
-      label: "Requests",
-      to: "/farmer/procurement-requests",
-      icon: <InboxIcon />,
+      label: "Add Work",
+      to: "/driver/find-farmers",
+      icon: <AgricultureIcon />,
     },
+
     {
-      label: "Sales",
-      to: "/farmer/finalized-procurements",
+      label: "Records",
+      to: "/driver/work-records",
       icon: <InventoryIcon />,
     },
+
     {
       label: "Dues",
-      to: "/farmer/payment-dues",
+      to: "/driver/payment-dues",
       icon: <AccountBalanceWalletIcon />,
     },
-    { label: "More", to: "/farmer/more", icon: <MenuIcon /> }, // 🔥 NEW
+    {
+      label: "History",
+      to: "/driver/transactions",
+      icon: <HistoryIcon />,
+    },
   ];
 
   return (
@@ -65,4 +72,4 @@ const FarmerBottomNav = () => {
   );
 };
 
-export default FarmerBottomNav;
+export default DriverBottomNav;
