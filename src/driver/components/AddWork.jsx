@@ -60,7 +60,7 @@ const AddWork = () => {
   }, [hours, minutes, units, selectedWork]);
 
   const totalAmount = useMemo(() => {
-    return totalUnits * (Number(costPerUnit) || 0);
+    return Math.round(totalUnits * (Number(costPerUnit) || 0));
   }, [totalUnits, costPerUnit]);
 
   if (!farmer) return null;
@@ -197,7 +197,7 @@ const AddWork = () => {
         ) : (
           <input
             type="number"
-            placeholder={`Enter Number of ${selectedWork?.unit || "units"}s`}
+            placeholder={`Enter Number of ${selectedWork?.unit || "unit"}s`}
             value={units}
             onChange={(e) => setUnits(e.target.value)}
             className="w-full rounded-md border px-3 py-2"

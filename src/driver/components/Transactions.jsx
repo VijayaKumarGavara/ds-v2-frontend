@@ -103,44 +103,62 @@ const Transactions = () => {
       )}
 
       {/* Transaction List */}
-      <ul className="divide-y divide-light-border dark:divide-dark-border mb-16">
+      <div className="space-y-4 mb-16">
         {transactions.map((t) => {
           const date = new Date(t.createdAt).toLocaleDateString("en-GB");
 
           return (
-            <li
-              key={t.transaction_id || t.createdAt}
+            <div
+              key={t.transaction_id}
               className="
-                flex items-center gap-4
-                py-4
-                hover:bg-light-bg dark:hover:bg-dark-bg
-                transition
-              ">
-              {/* Icon */}
-              <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
-                <SouthWestIcon className="text-green-600" />
+          rounded-xl
+          bg-light-card dark:bg-dark-card
+          border border-light-border dark:border-dark-border
+          px-4 py-4
+          space-y-2
+        ">
+              {/* Top Row */}
+              <div className="flex justify-between items-center">
+                <span className="font-ui font-medium text-light-text">
+                  {t.farmer_name}
+                </span>
+
+                <div className="text-right">
+                  {t.amount > 0 && (
+                    <div className="text-green-600 font-semibold">
+                      ₹{t.amount.toLocaleString()}
+                    </div>
+                  )}
+                  {t.discount > 0 && (
+                    <div className="text-orange-500 text-sm">
+                      Discount ₹{t.discount.toLocaleString()}
+                    </div>
+                  )}
+                </div>
               </div>
 
-              {/* Details */}
-              <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-center gap-3">
-                  <div className="font-ui font-medium text-light-text dark:text-dark-text truncate">
-                    {t.farmer_name}
-                  </div>
-
-                  <div className="font-ui font-semibold text-green-600 whitespace-nowrap">
-                    ₹{t.amount}
-                  </div>
-                </div>
-
-                <div className="text-sm font-body text-light-text2 dark:text-dark-text2">
-                  Paid on {date}
-                </div>
+              {/* Balance Flow */}
+              <div className="text-xs text-light-text2">
+                Balance: ₹{t.balance_before.toLocaleString()} → ₹
+                {t.balance_after.toLocaleString()}
               </div>
-            </li>
+
+              {/* Meta */}
+              <div className="flex justify-between text-xs text-light-text2">
+                <span>{date}</span>
+                <span className="capitalize">{t.payment_mode}</span>
+              </div>
+
+              {/* Remarks */}
+              {t.remarks && (
+                <div className="text-xs italic text-light-text2">
+                  {t.remarks}
+                </div>
+              )}
+            </div>
           );
         })}
-      </ul>
+      </div>
     </section>
   );
 };

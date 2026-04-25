@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { API_URL } from "../../utils/constants";
 import DriverFilters from "./DriverFilters";
 import getCurrentAgriYear from "../../utils/getCurrentAgriYear";
+import formatHours from "../../utils/formatHours";
 
 const WorkRecords = () => {
   const navigate = useNavigate();
@@ -174,7 +175,10 @@ const WorkRecords = () => {
             <div className="mt-3 text-sm space-y-1">
               <div className="flex justify-between">
                 <span>
-                  Qty: {work.quantity} {work.work?.unit}
+                  Qty:{" "}
+                  {work.work?.unit === "hour"
+                    ? formatHours(work.quantity)
+                    : `${work.quantity}  ${work.work?.unit}`}
                 </span>
                 <span>
                   ₹{work.cost_per_unit}/{work.work?.unit}

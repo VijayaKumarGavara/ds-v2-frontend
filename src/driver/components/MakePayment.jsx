@@ -14,7 +14,8 @@ const MakePayment = () => {
   const [paymentForm, setPaymentForm] = useState({
     amount: "",
     remarks: "",
-    payment_mode: "",
+    payment_mode: "cash",
+    discount:""
   });
 
   const [status, setStatus] = useState({
@@ -40,6 +41,7 @@ const MakePayment = () => {
       driver_id,
       amount: Number(paymentForm.amount),
       remarks: paymentForm.remarks,
+      discount:paymentForm.discount,
       payment_mode:paymentForm.payment_mode,
     };
 
@@ -70,7 +72,7 @@ const MakePayment = () => {
         message: `Payment of ₹${paymentForm.amount} recorded successfully.`,
       });
 
-      setPaymentForm({ amount: "", remarks: "" });
+      setPaymentForm({ amount: "", remarks: "",payment_mode:"cash", discount:"" });
 
       setTimeout(() => {
         navigate(-1);
@@ -170,6 +172,24 @@ const MakePayment = () => {
             "
           />
 
+          <input
+            type="text"
+            placeholder="Enter Discount(optional)"
+            value={paymentForm.discount}
+            onChange={(e) =>
+              setPaymentForm({ ...paymentForm, discount: e.target.value })
+            }
+            disabled={isSubmitting}
+            className="
+              w-full rounded-md
+              px-3 py-2
+              bg-light-bg dark:bg-dark-bg
+              border border-light-border dark:border-dark-border
+              text-light-text dark:text-dark-text
+              placeholder:text-light-text2 dark:placeholder:text-dark-text2
+              font-ui
+            "
+          />
           <select
             value={paymentForm.payment_mode}
             onChange={(e) =>

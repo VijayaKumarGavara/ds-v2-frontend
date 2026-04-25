@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 import { API_URL } from "../../utils/constants";
 const TractorWorkTransactions = () => {
-
   const [transactions, setTransactions] = useState([]);
   const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -14,13 +13,16 @@ const TractorWorkTransactions = () => {
     if (!farmer_id) return;
     (async () => {
       try {
-        const response = await fetch(`${API_URL}/api/farmer/tractor-work-transactions`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+        const response = await fetch(
+          `${API_URL}/api/farmer/tractor-work-transactions`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           },
-        });
+        );
         if (!response.ok) {
           throw new Error("Error while fetching the transactions.");
         }
@@ -75,38 +77,57 @@ const TractorWorkTransactions = () => {
 
       {/* Transactions list */}
       <div className="space-y-4 mb-16">
-        {transactions.map((t, index) => {
+        {transactions.map((t) => {
           const date = new Date(t.createdAt).toLocaleDateString("en-GB");
 
           return (
             <div
-              key={index}
+              key={t.transaction_id}
               className="
-                rounded-xl
-                bg-light-card dark:bg-dark-card
-                border border-light-border dark:border-dark-border
-                px-4 py-4
-                flex justify-between items-center
-              ">
-              {/* Driver + date */}
-              <div className="flex flex-col">
-                <span className="font-ui font-medium text-light-text dark:text-dark-text">
+          rounded-xl
+          bg-light-card dark:bg-dark-card
+          border border-light-border dark:border-dark-border
+          px-4 py-4
+          space-y-2
+        ">
+              {/* Top Row */}
+              <div className="flex justify-between items-center">
+                <span className="font-ui font-medium text-light-text">
                   {t.driver_name}
                 </span>
-                <span className="text-sm font-ui text-light-text2 dark:text-dark-text2">
-                  {date}
-                </span>
+
+                <div className="text-right">
+                  {t.amount > 0 && (
+                    <div className="text-green-600 font-semibold">
+                      ₹{t.amount.toLocaleString()}
+                    </div>
+                  )}
+                  {t.discount > 0 && (
+                    <div className="text-orange-500 text-sm">
+                      Discount ₹{t.discount.toLocaleString()}
+                    </div>
+                  )}
+                </div>
               </div>
 
-              {/* Amount */}
-              <span
-                className="
-                  text-sm font-ui font-medium
-                  px-3 py-1 rounded-full
-                  bg-brand-500/10 text-brand-500
-                ">
-                ₹{t.amount.toLocaleString()}
-              </span>
+              {/* Balance Flow */}
+              <div className="text-xs text-light-text2">
+                Balance: ₹{t.balance_before.toLocaleString()} → ₹
+                {t.balance_after.toLocaleString()}
+              </div>
+
+              {/* Meta */}
+              <div className="flex justify-between text-xs text-light-text2">
+                <span>{date}</span>
+                <span className="capitalize">{t.payment_mode}</span>
+              </div>
+
+              {/* Remarks */}
+              {t.remarks && (
+                <div className="text-xs italic text-light-text2">
+                  {t.remarks}
+                </div>
+              )}
             </div>
           );
         })}
