@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setLoggedInDriver, setLoggedInUserRole } from "../../store/userSlice";
 import { API_URL, DRIVER_CLOUDINARY_URL } from "../../utils/constants";
 
+import EditProfileModal from "./EditProfileModel";
+
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -17,6 +19,8 @@ const Profile = () => {
 
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -129,6 +133,12 @@ const Profile = () => {
           </div>
         </div>
 
+        <button
+          onClick={() => setIsEditOpen(true)}
+          className=" text-sm text-brand-500 hover:underline">
+          Edit Profile
+        </button>
+
         {/* Logout */}
         <button
           onClick={handleLogout}
@@ -167,6 +177,13 @@ const Profile = () => {
           </button>
         </div>
       </div>
+      {isEditOpen && (
+        <EditProfileModal
+          profile={profile}
+          onClose={() => setIsEditOpen(false)}
+          onUpdate={(updatedProfile) => setProfile(updatedProfile)}
+        />
+      )}
     </section>
   );
 };
