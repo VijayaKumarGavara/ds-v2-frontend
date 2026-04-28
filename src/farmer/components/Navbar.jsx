@@ -17,7 +17,7 @@ export default function Navbar() {
         </div>
 
         {/* Profile */}
-        <Link to="/farmer/profile">
+        <Link to="/farmer/profile" className="p-2 rounded-lg hover:bg-light-card dark:hover:bg-dark-card transition-colors">
           <AccountCircleIcon fontSize="large" />
         </Link>
 

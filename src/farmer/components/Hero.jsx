@@ -4,8 +4,9 @@ const Hero = () => {
   const farmer = useSelector((store) => store?.user?.farmer);
 
   return (
-    <section className="w-full bg-light-bg dark:bg-dark-bg">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+    <section className="w-full min-h-96 bg-light-bg dark:bg-dark-bg">
+      {/* Add left margin on desktop to account for sidebar */}
+      <div className="max-w-7xl mx-auto px-4 py-8 md:ml-64">
 
         {/* Greeting */}
         <div className="mb-6">
