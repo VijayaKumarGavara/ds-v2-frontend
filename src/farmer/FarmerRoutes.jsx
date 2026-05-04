@@ -9,6 +9,7 @@ import Profile from "./components/Profile";
 import TractorWorks from "./components/TractorWorks";
 import TractorWorkDues from "./components/TractoWorkDues";
 import TractorWorkTransactions from "./components/TractorWorkTransactions";
+import WeatherForecast from "./components/WeatherForecast";
 
 const FarmerRoutes = ({ toggleTheme, theme }) => {
   return (
@@ -25,6 +26,7 @@ const FarmerRoutes = ({ toggleTheme, theme }) => {
 
         <Route path="transactions" element={<Transactions />} />
 
+        <Route path="weather" element={<WeatherForecast />} />
 
         {/* Tractor Work related */}
         <Route path="tractor-works" element={<TractorWorks />} />

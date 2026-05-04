@@ -6,6 +6,7 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -41,6 +42,7 @@ const FarmerBottomNav = () => {
 
   // Secondary items in "More" menu/sidebar
   const moreNavItems = [
+    { label: "Weather", to: "/farmer/weather", icon: <WbSunnyIcon /> },
     { label: "Tractor Works", to: "/farmer/tractor-works", icon: <AgricultureIcon /> },
     { label: "Tractor Dues", to: "/farmer/tractor-work-payment-dues", icon: <AccountBalanceWalletIcon /> },
     { label: "Tractor Transactions", to: "/farmer/tractor-work-transactions", icon: <ReceiptLongIcon /> },
@@ -115,7 +117,7 @@ const FarmerBottomNav = () => {
                   <Link
                     to={item.to}
                     className={`
-                      flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors
+                      flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors
                       ${
                         isActive
                           ? "bg-brand-500/10 text-brand-500"
@@ -143,7 +145,7 @@ const FarmerBottomNav = () => {
                   <Link
                     to={item.to}
                     className={`
-                      flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors
+                      flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors
                       ${
                         isActive
                           ? "bg-brand-500/10 text-brand-500"
