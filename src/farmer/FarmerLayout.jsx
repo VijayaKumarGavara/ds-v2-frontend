@@ -5,14 +5,14 @@ const FarmerLayout = ({ toggleTheme, theme }) => {
   return (
     <>
       <div className="min-h-screen bg-light-bg dark:bg-dark-bg">
-        <Navbar/>
+        <Navbar />
 
         {/* Content area */}
         <main className="pt-20 px-4 md:px-8 mb-20">
-          <Outlet context={{ theme, toggleTheme }}/>
+          <Outlet context={{ theme, toggleTheme }} />
         </main>
 
-        <FarmerBottomNav/>
+        <FarmerBottomNav />
       </div>
     </>
   );

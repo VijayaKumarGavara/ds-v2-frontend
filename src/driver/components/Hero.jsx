@@ -13,7 +13,7 @@ const Hero = () => {
     <section
       className="relative w-full min-h-[calc(100vh-140px)] md:min-h-[calc(100vh-80px)]
     lg:min-h-[calc(100vh-80px)]">
-      <div className="max-w-4xl mx-auto px-4 md:px-8">
+      <div className="max-w-4xl mx-auto px-4 md:px-8 md:ml-64">
         <div className="mb-6">
           <h1 className="text-lg font-heading font-semibold text-light-text dark:text-dark-text">
             Hello, {driver_name}
@@ -43,9 +43,7 @@ const Hero = () => {
               <div className="font-ui font-semibold text-base">
                 Add Tractor Work
               </div>
-              <div className="text-sm opacity-90">
-                Find farmers & add works
-              </div>
+              <div className="text-sm opacity-90">Find farmers & add works</div>
             </div>
           </Link>
 

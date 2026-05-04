@@ -1,17 +1,6 @@
 import { Link } from "react-router";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
-
-
 export default function Navbar() {
-  const menuItems = [
-    { label: "Home", to: "/driver" },
-    {label:"Recent Farmers", to:"/driver/recent-farmers"},
-    {label:"Add Work", to:"/driver/find-farmers"},
-    {label:"Work Records", to:"/driver/work-records"},
-    { label: "Payment Dues", to: "/driver/payment-dues" },
-    { label: "History", to: "/driver/transactions" },
-  ];
 
   return (
     <header
@@ -31,23 +20,11 @@ export default function Navbar() {
             Dhanya Sethu
           </span>
         </div>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8 font-body font-medium text-light-text dark:text-dark-text">
-          {menuItems.map((item) => (
-            <Link
-              key={item.label}
-              to={item.to}
-              className="transition hover:text-light-text2 hover:dark:text-dark-text2">
-              {" "}
-              {item.label}{" "}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Desktop Actions */}
-        <div className=" md:flex items-center font-medium text-light-text dark:text-dark-text">
-          <Link to="/driver/profile">
+        {/* Profile Icon */}
+        <div className="md:flex items-center font-medium text-light-text dark:text-dark-text">
+          <Link
+            to="/driver/profile"
+            className="p-2 rounded-lg hover:bg-light-card dark:hover:bg-dark-card transition-colors">
             <AccountCircleIcon fontSize="large" />
           </Link>
         </div>
